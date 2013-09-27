@@ -29,8 +29,6 @@ class AdminApproveOrganizationApplicationEmail
         $name = $this->name;
         $subject = "$term Club Registration: $name";
 
-        $this->emails[] = SDRSettings::getApplicationEmail();
-
         $email = new EmailMessage(NULL, NULL,
             $this->emails,
             NULL,
