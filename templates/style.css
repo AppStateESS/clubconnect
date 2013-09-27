@@ -1,0 +1,464 @@
+#sdr-term {
+    float: left;
+    font-weight: bold;
+}
+
+#sdr-user {
+    float: right;
+}
+
+.masquerading {
+    background-color: #FCC;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+
+.masquerading a {
+}
+
+#sdr-main {
+    clear: both;
+    padding: 1em 0;
+}
+
+#sdr-guest-message {
+    margin-left: 5em;
+}
+
+#sdr-guest-main {
+    display: block;
+    padding: 0 5em;
+}
+
+#sdr-user-main {
+	margin-left: 210px;
+}
+
+#sdr-sidebar {
+	width: 200px;
+	float: left;
+}
+
+.sdr-notification {
+	margin: 1em 0;
+	padding: 0.25em;
+}
+
+#orgbrowser {
+	margin-bottom: 1em;
+}
+
+.sdr-header {
+	border: solid 1px #000;
+	padding: 5px;
+	background: #F4C209;
+}
+
+.sdr-header h1, .sdr-header h2, .sdr-header h3 {
+	margin: 0;
+	line-height: 1.2em;
+}
+
+.sdr-header .phpws-form-container {
+    float: right;
+    clear: right;
+    margin-top: 5px;
+}
+
+.sdr-profile-logo {
+    float: right;
+}
+
+.sdr-profile-menu {
+	border: solid 1px #000;
+    background: #EEE;
+    margin: 0;
+    padding: 0;
+    width: 300px;
+}
+
+.sdr-profile-menu #profile-menu-header {
+	display: block;
+	border-bottom: solid 1px #000;
+	padding: 0 5px;
+	background: #F4C209;
+	margin: 0px;
+	margin-top: 0px;
+}
+
+.sdr-profile-menu ul {
+	display: block;
+	padding: 5px;
+}
+
+.sdr-profile .no-profile {
+	margin: 1em;
+	font-style: italic;
+}
+
+.orgbrowser_sorted dt {
+    font-weight: bold;
+    background-color: #CCC;
+}
+
+.sdr-sidebox {
+    border: 1px solid #000;
+}
+
+.sdr-sidebox li.active {
+    font-weight: bold;
+}
+
+.top-right-menu {
+    float: right;
+}
+
+.top-right-menu li {
+    display: inline;
+    border: solid 1px #000;
+    padding: 5px;
+    background: #CCC;
+}
+
+.top-right-menu li.active {
+    background: #FFF;
+}
+
+.organization-roster {
+	border-collapse: separate;
+	border-spacing: 0 2px;
+	width: 100%;
+}
+
+.organization-roster th, .organization-roster td {
+	padding: 5px 1em;
+}
+
+.organization-roster .awaiting-org td {
+    background: #FFC;
+}
+
+.organization-roster .awaiting-student td {
+    background: #FCC;
+}
+
+.organization-roster .officer td {
+    background: #CFC;
+}
+
+.organization-roster .member td {
+    background: #CCF;
+}
+
+.expanded-membership {
+    border:1px solid;
+    width:80%;
+    margin-left:5px;
+    margin-bottom:5px;
+    padding:3px;
+}
+
+.em-head {
+    width:100%;
+    cursor:pointer;
+}
+
+.em-head h3 {
+    padding-left:8px;
+}
+
+.em-body {
+    width:100%;
+    border-top:1px solid;
+}
+
+.invisible {
+    display:none;
+}
+
+.sdr-confirmation {
+	width: 400px;
+}
+
+.sdr-confirmation .question {
+	font-weight: bold;
+}
+
+.sdr-confirmation .specifics {
+	padding: 0 2em;
+}
+
+.sdr-confirmation label {
+    display: block;
+    font-size: .80em;
+}
+
+.sdr-confirmation .submit {
+    text-align: right;
+}
+
+#user-summary-right {
+    float: right;
+    width: 49%;
+}
+
+#user-summary-left {
+    float: left;
+    width: 49%;
+}
+
+.user-summary {
+    border: solid 1px #000;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.user-summary-head {
+    border-bottom: solid 1px #000;
+    padding: 5px;
+}
+
+.user-summary-head h2 {
+    margin: 0;
+    line-height: 1em;
+}
+
+.user-summary-head h2 a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+}
+
+.user-summary-body {
+	padding: 5px;
+}
+
+.user-summary-body h3 {
+    margin: 0 0 0.5em 0;
+    line-height: 1em;
+    font-style: italic;
+}
+
+.user-summary-body .awaiting {
+    color: #F00;
+}
+
+.ssv-awaiting-student {
+    background: #FFC;
+}
+
+.ssv-awaiting-org {
+    background: #CCC;
+}
+
+.ssv-admin {
+    background: #FCC;
+}
+
+.ssv-member {
+    background: #CCF;
+}
+
+.tr-number-copies, .tr-email, .tr-submit {
+    margin: 2em;
+}
+
+.tr-addresses td {
+    padding-bottom: 1em;
+}
+
+.tr-addresses {
+	margin: 2em 2em 0 2em;
+}
+
+.transcript-hidden {
+    font-style: italic;
+    color: #999;
+}
+
+.label-above-edit {
+	margin: 0 0 2em 4em;
+}
+
+.label-above-edit label {
+	display: block;
+	font-size: 0.8em;
+}
+
+.label-above-edit .multi-line {
+	margin: 0;
+}
+
+.label-above-edit .single-line {
+	float: left;
+	margin-right: 1em;
+}
+
+.clear {
+	clear: both;
+}
+
+.org-settings {
+	margin: 1em;
+}
+
+#hidden {
+	font-style: italic;
+	color: gray;
+	background-color: #FFC;
+}
+
+.search-results .advisor td {
+    background-color: #FFC;
+}
+
+#search-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.user-big-login {
+    margin: 0 2em;
+}
+
+ul.nobullets {
+    list-style: none;
+}
+
+.tab-nav {
+    position:absolute;
+    bottom:5px;
+}
+
+.tab-nav.next {
+    right:0px;
+}
+
+.tab-nav.back {
+    left:0px;
+}
+
+tr.highlight {
+    background-color: #FF0;
+}
+
+#OrganizationApplicationView .form-section {
+    border: solid #000 1px;
+    margin-top: 1em;
+}
+
+#OrganizationApplicationView .form-section h3 {
+    margin: 0;
+    padding: .5em;
+    display: block;
+    background-color: #F4C209;
+    border-bottom: solid #000 1px;
+}
+
+#OrganizationApplicationView .form-section dl {
+    margin: .5em;
+}
+
+#OrganizationApplicationView .form-section dt {
+    font-weight: bold;
+    display: block;
+    float: left;
+}
+
+#OrganizationApplicationView .form-section dd {
+    margin-left: 20%;
+}
+
+#OrganizationApplicationView .form-section p {
+    margin: 0;
+    padding: .5em;
+}
+
+#OrganizationApplicationView .form-section .mini-form-section {
+    float: right;
+    padding: .5em;
+    margin: 0;
+}
+
+#user-summary-right .user-summary ul {
+    margin: 0;
+    padding: 0;
+}
+
+#user-summary-right ul li {
+    display: block;
+    margin: .5em .5em;
+    padding: 0 0 0 .5em;
+    font-weight: bold;
+}
+
+#user-summary-right ul ul li {
+    background: #FFF;
+    border: none;
+    margin: 0 0 0 1em;
+    font-weight: normal;
+}
+
+#fb-root {
+    padding-top: 1em;
+}
+
+.search-results em {
+    color: #999;
+    font-size: 80%;
+}
+
+ul.orgbrowser_sorted {
+    list-style: none;
+    padding: 0 2em;
+}
+
+li.orgbrowser_empty {
+    color: #666;
+    font-style: italic;
+}
+
+li.orgbrowser_category {
+    font-weight: bold;
+    padding: 1em 0 0 1em;
+    border-bottom: solid #000 1px;
+}
+
+li.orgbrowser_org {
+    padding-left: 1em;
+    margin: 0;
+}
+
+.makeroom {
+    margin-bottom: 1em;
+}
+
+.panel-icons p {
+    margin-left: 1.5em;
+}
+
+.panel-icons i {
+    display: block;
+    float: left;
+    margin-left: -1.5em;
+}
+
+.tab-pane {
+    padding: 2em;
+    border-left: solid 1px #DDD;
+    border-right: solid 1px #DDD;
+    border-bottom: solid 1px #DDD;
+}
+
+.tagselect li > a {
+    background-color: #F6F6F6;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.nowrap {
+    white-space: nowrap;
+}

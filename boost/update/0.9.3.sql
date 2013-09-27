@@ -1,0 +1,6 @@
+BEGIN;
+
+ALTER TABLE sdr_organization ADD COLUMN rollover_stf SMALLINT NOT NULL DEFAULT 0;
+ALTER TABLE sdr_organization ADD COLUMN rollover_fts SMALLINT NOT NULL DEFAULT 1;
+
+COMMIT;

@@ -1,0 +1,5 @@
+{LOGGED_IN_AS}
+{ADMIN_TYPE}
+<!-- BEGIN LOG_LINK -->
+| {LOG_LINK}
+<!-- END LOG_LINK -->

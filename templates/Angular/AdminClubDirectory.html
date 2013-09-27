@@ -1,0 +1,34 @@
+<div data-ng-controller="ClubDirectoryCtrl">
+  <div class="row">
+    <div class="col-lg-4 col-md-4">
+      <div class="panel">
+        <div class="panel-heading">
+          <h4 class="panel-title">Club Search</h4>
+        </div>
+        <div class="panel-body">
+          <form class="form-inline">
+            <div class="form-group">
+              <label class="sr-only" for="search">Search Clubs</label>
+              <input type="text" id="search" name="search" data-ng-model="search" class="form-control" placeholder="Type here to search">
+            </div>
+          </form>
+  <!--        <strong>Or, filter by tags:</strong>
+  <div data-tag-select data-tags="tags" data-ng-model="selectedTags" data-cols="3"></div>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8">
+      <table class="table table-hover" class="club-list">
+        <tr class="cursor-pointer" data-ng-repeat="club in clubs | filter:search | orderBy:orderClubDirectory" data-ng-click="clubRowClicked(club.url.default)">
+          <td>
+            <a href="{{club.url.default}}">{{club.fullname}}</a>
+            <span class="pull-right">
+              <span class="label label-warning" data-ng-show="club.term != 201340">Not yet registered</span>
+              <span class="label label-info">{{club.term}}</span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

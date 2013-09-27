@@ -1,0 +1,281 @@
+<div data-ng-controller="ClubRegistrationCtrl">
+<form id="clubregistration" name="clubregistration">
+  <h1>Club Registgration <small>2013-2014</small></h1>
+  <hr>
+  <div data-ng-show="registration.state == 'Rejected'" class="alert alert-danger">
+    <p>{{registration.oldstatecomment}}</p>
+  </div>
+  <div data-ng-show="isNew() || registration.allowView">
+    <div class="form-group" data-ng-show="isNew()">
+      <p><label class="control-label">
+        <input type="radio" name="state" data-ng-model="registration.state" value="New">
+        This is my organization's first year at Appalachian.
+      </label></p>
+      <p><label class="control-label">
+        <input type="radio" name="state" data-ng-model="registration.state" value="Continuing">
+        I am re-registering an existing organization named:
+      </label></p>
+      <div class="form-group">
+        <div class="input-group">
+          <select class="form-control" name="organization_id" data-ng-model="registration.organization_id" data-ng-options="club.id as club.name for club in user.regclubs" data-ng-disabled="registration.state != 'Continuing'"></select>
+          <a href="javascript:void(0);" class="input-group-addon btn" data-ng-disabled="!canLoadOldData()" data-ng-click="loadOldData()"><i class="icon-sort-by-attributes"></i> Auto-Fill Form</a>
+        </div>
+        <p class="help-block">If your organization is not in this list, please <a href="http://csil.appstate.edu/contact-us" target="_blank">contact CSIL</a>.  Click 'Auto-Fill Form' to fill in as much as possible from the previous registration.</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="fullname">Full Name</label>
+      <input type="text" class="form-control" name="fullname" data-ng-model="registration.fullname" placeholder="Full Name of Organization" data-required="">
+      <p class="help-block" data-ng-show="clubregistration.fullname.$erroneous">This field is required.</p>
+      <p class="help-block">No acronyms or abbreviations.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="shortname">Short Name</label>
+      <input type="text" class="form-control" name="shortname" data-ng-model="registration.shortname" placeholder="ABC" data-required="">
+      <p class="help-block" data-ng-show="clubregistration.shortname.$erroneous">This field is required.</p>
+      <p class="help-block">Many student organizations already have a well-known acronym or shortened form; please enter it or make one up.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="address">Address</label>
+      <input type="text" class="form-control" name="address" data-ng-model="registration.address" placeholder="ASU PO Box or Advisor's Office Address" data-required="">
+      <p class="help-block" data-ng-show="clubregistration.address.$erroneous">This field is required.</p>
+      <p class="help-block">Do not use your personal ASU BOX.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="bank">Bank</label>
+      <input type="text" class="form-control" name="bank" data-ng-model="registration.bank" placeholder="Name of Bank">
+      <p class="help-block">Leave blank if your organization does not have a bank account.  <em>Do not</em> provide your account number.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="ein">Employer Identification Number</label>
+      <input type="text" class="form-control" name="ein" data-ng-model="registration.ein" placeholder="55-5555555">
+      <p class="help-block">If your organization has a bank account, you must provide an Employer Identification Number.</p>
+    </div>
+
+    <hr>
+    <h2>Public Profile</h2>
+    <div class="form-group">
+      <label class="control-label" for="purpose">Purpose</label>
+      <input type="text" class="form-control" name="purpose" data-ng-model="registration.purpose" placeholder="Copy directly from your organization's constitution." data-required="">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="description">Description</label>
+      <textarea class="form-control" name="description" data-ng-model="registration.description" rows="20" data-ckeditor=""></textarea>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="requirements">Requirements</label>
+      <textarea class="form-control" name="requirements" data-ng-model="registration.requirements" rows="10"></textarea>
+      <p class="help-block">What is required of club members?  Please list any dues, minimum service hours, etc.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="meetings">Meetings</label>
+      <input type="text" class="form-control" name="meetings" data-ng-model="registration.meetings" placeholder="Second Thursday of Every Month at 7pm" data-required="">
+      <p class="help-block">If your meeting schedule is more complicated than will fit in this area, specify how your meeting schedule can be found; a website URL, a social media page, a public posting place, etc.  All organizations must have publicly listed meeting times.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="location">Location</label>
+      <input type="text" class="form-control" name="location" data-ng-model="registration.location" placeholder="John Thomas Hall, room 387" data-required="">
+      <p class="help-block">If your meeting location is more complicated than will fit in this area, specify how your meeting location can be found; a website URL, a social media page, a public posting place, etc.  All organizations must have publicly listed meeting locations.</p>
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="website">Website</label>
+      <input type="text" class="form-control" name="website" data-ng-model="registration.website" placeholder="http://example.com/club">
+      <p class="help-block">If you need a website, please fill out a <a href="https://ess.appstate.edu/consultation-form" target="_blank">Website Consultation Form</a>.</p>
+    </div>
+
+    <hr>
+    <h2>Categorization</h2>
+    <div class="row">
+
+      <div class="col-lg-6 col-md-6">
+        <div class="panel" data-ng-class="registration.sgaelection && 'panel-default' || 'panel-danger'">
+          <div class="panel-heading">
+            <h4 class="panel-title">SGA Elections</h4>
+          </div>
+          <div class="panel-body">
+            <p class="help-block">Select the <em>one</em> category that best fits your organization for SGA Election purposes.</p>
+            <div data-tag-select="" data-radio="true" data-tags="sdrdata.electionTags" data-ng-model="registration.sgaelection"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="panel" data-ng-class="registration.searchtags.length && 'panel-default' || 'panel-danger'">
+          <div class="panel-heading">
+            <h4 class="panel-title">Club Directory Search</h4>
+          </div>
+          <div class="panel-body">
+            <p class="help-block">Select <em>one or more</em> categories that describe your organization.</p>
+            <div data-tag-select="" data-tags="sdrdata.searchTags" data-cols="3" data-ng-model="registration.searchtags"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+          
+    <hr>
+    <hr>
+    <h2>Elections</h2>
+    <div class="panel" data-ng-class="registration.elections.length && 'panel-default' || 'panel-danger'">
+      <div class="panel-heading">
+        <h4 class="panel-title">Election Month</h4>
+      </div>
+      <div class="panel-body">
+        <p class="help-block">Select <em>one or more</em> months in which your organization holds officer elections.</p>
+        <div data-tag-select="" data-tags="sdrdata.monthTags" data-cols="3" data-ng-model="registration.elections"></div>
+      </div>
+    </div>
+
+    <h2>People</h2>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">Advisor and Officers</h4>
+      </div>
+      <div class="panel-body">
+        <p>Add the current officers of your organization, including advisor.  This list must at least include president and advisor.  Don't forget to add yourself!</p>
+        <ul>
+          <li>Please ensure that the <strong>email address</strong> is accurate.  Only <tt>@appstate.edu</tt> email addresses will be accepted.</li>
+          <li>Select <strong>officer positions</strong> consistent with the wording in your organization's constitution.</li>
+          <li><strong>Administrators</strong> have access to manage your club through ClubConnect.  Indicate who should and should not have this access.  <em>Note: The President and Advisor always have access.</em></li>
+          <li><strong>Removed</strong> officers will remain shown but stricken through for your convenience.</li>
+          <li><strong>If you have not yet held elections for this year</strong>, please enter the current set of officers for your club.  You will be able to change them through ClubConnect when the election is held.</li>
+          <li>After club registration is complete, you will have the opportunity to invite club members from last year to join for this year.</li>
+        </ul>
+
+        <table class="table">
+          <tr>
+            <th><span class="sr-only">Actions</span></th>
+            <th>Email</th>
+            <th>Advisor / Officer Position</th>
+            <th>Administrator</th>
+          </tr>
+          <tr data-ng-repeat="(key, officer) in officerRequest.officers">
+            <ng-form name="officer">
+              <td data-ng-hide="officer.removed">
+                <button class="btn btn-danger" data-ng-click="removeOfficer(key)">
+                  <i class="icon-minus-sign"></i>
+                </button>
+              </td>
+              <td>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="officerEmail" data-ng-model="officer.person_email" placeholder="Only the part before the @ sign" required="">
+                    <span class="input-group-addon">@appstate.edu</span>
+                  </div>
+                </div>
+              </td>
+              <td data-ng-hide="officer.removed">
+                <select class="form-control" name="officerEmail" data-ng-model="officer.role_id" data-ng-options="role.id as role.title for role in sdrdata.roles" placeholder="Officer Position" required=""></select>
+              </td>
+              <td data-ng-hide="officer.removed || officer.role_id == 34 || officer.role_id == 53">
+                <div class="btn-group">
+                  <button type="button" class="btn" data-ng-class="officer.admin == 1 && 'btn-primary' || 'btn-default'" data-ng-click="officer.admin = 1">Yes</button>
+                  <button type="button" class="btn" data-ng-class="officer.admin == 0 && 'btn-primary' || 'btn-default'" data-ng-click="officer.admin = 0">No</button>
+                </div>
+              </td>
+              <td data-ng-show="!officer.removed && (officer.role_id == 34 || officer.role_id == 53)">
+                <button type="button" class="btn btn-primary" disabled="disabled">Yes</button>
+              </td>
+            </ng-form>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <button type="button" class="btn btn-success" data-ng-click="newOfficer()"><i class="icon-plus"></i> Add Officer</button>
+            </td>
+          </tr>
+        </table>
+        <div data-ng-show="removedOfficers.length">
+          <h4>Removed Officers</h4>
+          <ul>
+            <li data-ng-repeat="(key, officer) in removedOfficers">
+              {{officer.person_email}}
+              (<span data-ng-repeat="role in sdrdata.roles | filter:id=officer.role_id">{{role.title}}</span>)
+              <button type="button" class="btn btn-primary btn-xs" data-ng-click="undoRemoveOfficer(key)"><i class="icon-undo"></i> Undo</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+  </div>
+  <div data-ng-show="loading">
+
+    <div class="well">
+      <h1>Loading...</h1>
+      <div class="progress progress-striped active">
+        <div class="progress-bar" style="width: 100%"></div>
+      </div>
+    </div>
+
+  </div>
+  <div data-ng-hide="loading">
+
+    <div data-ng-show="isNew() || registration.state == 'Rejected'">
+
+      <h2>Next Step</h2>
+      <div data-ng-show="clubregistration.$invalid || !registration.sgaelection || !registration.searchtags.length || !registration.elections.length || !presidentValid() || !advisorValid()" class="alert alert-danger">
+        <p>Before you can submit this form, please fix the following problems:</p>
+        <ul>
+          <li data-ng-show="clubregistration.fullname.$error.required">The "Full Name" field is empty; specify the full name of your organization.</li>
+          <li data-ng-show="clubregistration.shortname.$error.required">The "Short Name" field is empty; specify a short name for your organization.</li>
+          <li data-ng-show="clubregistration.address.$error.required">The "Address" field is empty; specify either an ASU PO Box (not your personal one) or your advisor's office address.</li>
+          <li data-ng-show="registration.bank && !registration.ein">If your organization has a bank account, you must provide your EIN.  This information can be found by contacting your bank.</li>
+          <li data-ng-show="!registration.bank && registration.ein">You have specified an EIN but no bank.  Specify which bank services your organization's account.</li>
+          <li data-ng-show="clubregistration.purpose.$error.required">The "Purpose" field is empty; specify the purpose of your organization as written in your constitution.</li>
+          <li data-ng-show="clubregistration.meetings.$error.required">The "Meeting Time" field is empty; specify when you hold meetings.</li>
+          <li data-ng-show="clubregistration.location.$error.required">The "Meeting Location" field is empty; specify where you hold meetings.</li>
+          <li data-ng-show="!registration.sgaelection">Select an SGA Election Category.</li>
+          <li data-ng-show="!registration.searchtags.length">Select one or more Club Directory Search Tags.</li>
+          <li data-ng-show="!presidentValid()">Specify the current President of this organization.</li>
+          <li data-ng-show="!advisorValid()">Specify the current Advisor of this organization.</li>
+          <li data-ng-show="!registration.elections.length">Select one or more months in which your organization holds officer elections.</li>
+        </ul>
+      </div>
+      <p data-ng-hide="clubregistration.$invalid || !registration.sgaelection || !registration.searchtags.length || !registration.elections.length || !presidentValid() || !advisorValid()">This Club Registration Form will be submitted to the CSIL office for approval.</p>
+      <p><button type="button" class="btn btn-primary btn-lg" data-ng-disabled="clubregistration.$invalid || !(registration.sgaelection && registration.searchtags.length && registration.elections.length && presidentValid() && advisorValid())" data-ng-click="submit('Submitted')">Submit Club Registration Form</button></p>
+
+    </div>
+    <div data-ng-show="registration.state == 'Submitted' && !registration.allowView">
+
+      <div class="well">
+        <h1>Thank you for submitting a club registration form!</h1>
+      </div>
+
+    </div>
+    <div data-ng-show="registration.state == 'Submitted' && registration.allowView">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="panel panel-danger">
+            <div class="panel-heading">
+              <h4 class="panel-title">Reject Registration</h4>
+            </div>
+            <div class="panel-body">
+              <p>Please specify a reason:</p>
+              <textarea class="form-control" name="reason" data-ng-model="registration.statecomment"></textarea>
+              <button class="btn btn-lg btn-danger" data-ng-click="submit('Rejected')"><i class="icon-ban-circle"></i> Reject Registration</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-6">
+
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h4 class="panel-title">Approve Registration</h4>
+            </div>
+            <div class="panel-body">
+              <button class="btn btn-lg btn-success" data-ng-click="submit('Approved')"><i class="icon-check"></i> Approve Registration</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>
+</div>

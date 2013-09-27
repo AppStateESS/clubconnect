@@ -1,0 +1,33 @@
+<div data-ng-controller="PeopleCtrl">
+  <div class="row">
+    <div class="col-lg-4 col-md-4">
+      <div class="panel">
+        <div class="panel-heading">
+          <h4 class="panel-title">People Search</h4>
+        </div>
+        <div class="panel-body">
+          <form class="form-inline">
+            <div class="form-group">
+              <label class="sr-only" for="search">Search People</label>
+              <input type="text" id="search" name="search" data-ng-model="search" class="form-control" placeholder="Type here to search">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8">
+      <div class="alert alert-info" data-ng-hide="results">
+        Please type at least three letters in the search box to begin searching.
+      </div>
+      <table class="table table-hover" class="club-list">
+        <tr class="cursor-pointer" data-ng-repeat="person in results | orderBy:person.fullname" data-ng-click="personRowClicked(person.url.default)">
+          <td>
+            <a href="{{person.url.default}}">{{person.fullname}}</a>
+            <span class="label label-info pull-right" data-ng-show="person.student">Student</span>
+            <span class="label label-warning pull-right" data-ng-show="person.facstaff">Fac/Staff</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

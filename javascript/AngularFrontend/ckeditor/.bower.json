@@ -1,0 +1,12 @@
+{
+  "name": "ckeditor-releases",
+  "homepage": "https://github.com/ckeditor/ckeditor-releases",
+  "_release": "c9332c792e",
+  "_resolution": {
+    "type": "commit",
+    "commit": "c9332c792eea936d61a475b063080dee3216178a"
+  },
+  "_source": "git://github.com/ckeditor/ckeditor-releases.git",
+  "_target": "c9332c792eea936d61a475b063080dee3216178a",
+  "_direct": true
+}

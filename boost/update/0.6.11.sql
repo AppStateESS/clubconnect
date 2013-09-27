@@ -1,0 +1,1 @@
+ALTER TABLE sdr_membership_member_status ADD CONSTRAINT membership_roles_unique_idx UNIQUE (membership_id, member_status);

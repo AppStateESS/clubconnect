@@ -1,0 +1,23 @@
+._ob_loading {
+    display: none;
+    color: #999999;
+    font-style: italic;
+}
+
+._ob_error {
+    color: #CC0000;
+}
+
+#ob_categories {
+    display: block;
+}
+
+#ob_organizations {
+    display: block;
+}
+
+#orgbrowser-alternate {
+    padding: 2em 5em;
+    color: #999;
+    font-style: italic;
+}

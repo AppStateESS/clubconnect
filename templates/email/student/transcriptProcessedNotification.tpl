@@ -1,0 +1,3 @@
+Dear {NAME},
+[[BLANK]]
+{MESSAGE}

@@ -1,0 +1,28 @@
+<div data-ng-controller="RegistrationListCtrl">
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Organization Name</th>
+            <th>Submitted</th>
+            <th>Approved</th>
+            <th>Certified</th>
+            <th>Waiting On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="cursor-pointer" ng-repeat="reg in sdrdata.registrations | orderBy:regOrder:true" data-ng-click="regRowClicked(reg.url)">
+            <td class="nowrap">{{prettyTerm(reg.term)}}</td>
+            <td>{{reg.fullname}} <span data-ng-show="reg.shortname">({{reg.shortname}})</span></td>
+            <td data-ng-class="getClass(reg, 'Submitted')">{{getStateEffective(reg, 'Submitted')}}</td>
+            <td data-ng-class="getClass(reg, 'Approved')">{{getStateEffective(reg, 'Approved')}}</td>
+            <td data-ng-class="getClass(reg, 'Certified')">{{getStateEffective(reg, 'Certified')}}</td>
+            <td>{{getWaiting(reg)}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
