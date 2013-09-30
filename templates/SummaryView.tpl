@@ -1,9 +1,9 @@
-<div class="col-lg-8">
+<div class="col-lg-6">
   <div class="alert alert-warning">
     <strong>Club Presidents and Advisors:</strong> Club Registration has begun for Fall, 2013.  Please submit a <a href="{CLUBREG_LINK}">Club Registration Form</a> to keep your organization in good standing.
   </div>
 </div>
-<div class="col-lg-4">
+<div class="col-lg-6">
   <div class="panel">
     <div class="panel-heading">
       <h2 class="panel-title">Your Involvements</h2>

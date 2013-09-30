@@ -5,7 +5,7 @@
 <script src="{JAVASCRIPT_BASE}/AngularFrontend/angular.min.js"></script>
 <script src="{JAVASCRIPT_BASE}/AngularFrontend/scripts/5dfaa861.plugins.js"></script>
 <script src="{JAVASCRIPT_BASE}/AngularFrontend/scripts/9561abe3.modules.js"></script>
-<script src="{JAVASCRIPT_BASE}/AngularFrontend/scripts/00fd5f7e.scripts.js"></script>
+<script src="{JAVASCRIPT_BASE}/AngularFrontend/scripts/3014f216.scripts.js"></script>
 <script type="text/javascript">
   angular.module('ClubConnectApp')
   .config(function(registrationApiProvider) {
