@@ -37,6 +37,7 @@ abstract class TranscriptView extends sdr\View{
     {
         // For each term with its set of memberships
         foreach($this->memberships as $term=>$term_memberships){
+            if($term > Term::getCurrentTerm()) continue;
             
             $show_term = false; // Whether or not to show the heading for this term, in case *all* of the memberships for this term are hidden
             
