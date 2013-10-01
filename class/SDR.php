@@ -39,31 +39,26 @@ abstract class SDR
         $fac = CommandFactory::getInstance();
         $ctx = CommandContext::getInstance();
 
-        try {
-            $uri = $this->context->getUri();
-            if(preg_match('/index.php/', $uri)) {
-                $cmd = $fac->get($ctx->coalesce('action', 'Default'));
-                //NQ::simple('sdr', SDR_NOTIFICATION_WARNING, 'Old Command Mechanism' . (array_key_exists('HTTP_REFERER', $_SERVER) ? ', referrer is ' . $_SERVER['HTTP_REFERER'] : '') . ', for command ' . $cmd->getAction());
+        $uri = $this->context->getUri();
+        if(preg_match('/index.php/', $uri)) {
+            $cmd = $fac->get($ctx->coalesce('action', 'Default'));
+            //NQ::simple('sdr', SDR_NOTIFICATION_WARNING, 'Old Command Mechanism' . (array_key_exists('HTTP_REFERER', $_SERVER) ? ', referrer is ' . $_SERVER['HTTP_REFERER'] : '') . ', for command ' . $cmd->getAction());
 
-                if($fac->reverseMap($cmd) !== FALSE) {
-                    // Redirect to the URI-based version
-                    $cmd->redirect();
-                }
-            } else {
-                $cmd = CommandFactory::getInstance()->getByUri($this->context->getUri());
+            if($fac->reverseMap($cmd) !== FALSE) {
+                // Redirect to the URI-based version
+                $cmd->redirect();
             }
-
-            if(!$cmd->allowExecute()) {
-                PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
-                throw new PermissionException('Permission denied.');
-            }
-            $cmd->execute($this->context);
-            $cmd->log();
-            $this->activeCommand = $cmd;
-        } catch (PermissionException $pe) {
-            $this->context->pushContext($cmd);
-            throw $pe;
+        } else {
+            $cmd = CommandFactory::getInstance()->getByUri($this->context->getUri());
         }
+
+        if(!$cmd->allowExecute()) {
+            PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
+            throw new PermissionException('Permission denied.');
+        }
+        $this->activeCommand = $cmd;
+        $cmd->execute($this->context);
+        $cmd->log();
     }
 
     public static function silentNotify(Exception $e)

@@ -15,6 +15,7 @@ class GuestSDR extends SDR
         try {
             parent::process();
         } catch(PermissionException $pe) {
+            $this->getContext()->pushContext($this->activeCommand);
             UserStatus::sendToLogin();
         }
 
