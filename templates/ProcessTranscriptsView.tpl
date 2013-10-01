@@ -41,4 +41,5 @@
     {LIMIT_LABEL}: {LIMITS}
     </div>
     <!-- END limits -->
+      <a class="btn btn-default" href="{PRINT_SETTINGS_URI}">Print Settings (Advanced)</a>
 </div>

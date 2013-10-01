@@ -14,20 +14,23 @@ class TranscriptPDFGenerator extends TranscriptView
     private $membershipsForTerm;
     private $y0;
     private $col;
+    protected $settings;
 
     function __construct($transcript)
     {
         parent::__construct($transcript);
-
+    
+        $this->settings = new TranscriptPrintSettings(UserStatus::getUsername());
         $this->membershipsForTerm = array();
 	$this->col = 0;
     }
 
     function show()
     {
-        $this->pdf = new TranscriptPDF();
-        $this->pdf->name = $this->transcript->getStudent()->getFullName();
-        $this->pdf->sid = $this->transcript->getStudent()->getId();
+        $this->pdf = new TranscriptPDF(
+            $this->transcript->getStudent()->getFullName(),
+            $this->transcript->getStudent()->getId(),
+            $this->settings);
         $this->pdf->AliasNbPages();
         $this->pdf->AddPage();
 

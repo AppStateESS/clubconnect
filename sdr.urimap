@@ -5,6 +5,7 @@
 /admin/roles/{role_id}/hide         HideRoleCommand
 /admin/roles/{role_id}/show         ShowRoleCommand
 /admin/transcript                   ShowTranscriptRequestsCommand
+/admin/transcript/settings          TranscriptPrintSettingsCommand
 /admin/reports                      ListReportsCommand
 /admin/reports/{report}.{format}    ExecuteReportCommand
 /admin/settings                     AdminSettingsCommand

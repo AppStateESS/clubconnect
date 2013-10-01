@@ -26,6 +26,10 @@ class ProcessTranscriptsView extends sdr\View {
         if($showProcessed)
             $tags['STATUS_LABEL'] = dgettext('sdr', 'Status');
         $tags['ACTIONS_LABEL'] = dgettext('sdr', 'Actions');
+
+        // Link to Print Settings
+        $cmd = CommandFactory::getInstance()->get('TranscriptPrintSettingsCommand');
+        $tags['PRINT_SETTINGS_URI'] = $cmd->getURI();
         $this->pager->addPageTags($tags);
     }
     

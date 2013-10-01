@@ -1,50 +1,59 @@
 <?php
 
 PHPWS_Core::requireInc('sdr', 'FPDF.php');
+PHPWS_Core::initModClass('sdr', 'TranscriptPrintSettings.php');
 
 class TranscriptPDF extends FPDF
 {
-    var $name;
-    var $sid;
+    protected $name;
+    protected $sid;
+    protected $settings;
+
+    public function __construct($name, $sid, $settings)
+    {
+        $this->name     = $name;
+        $this->sid      = $sid;
+        $this->settings = $settings;
+
+        parent::__construct();
+    }
+
     function Header() {
+        $stgs = $this->settings->get();
+
         //Select Arial bold 15
-        $this->SetFont('Arial','B',14);
+        $this->SetFont('Arial','B',$stgs['std_font_size']);
         //get to the correct starting point....
-        $this->SetY(35);
+        $this->SetY($stgs['start_y']);
         //Move to the right
-        $this->Cell(8);
+        $this->Cell($stgs['start_x']);
         //Title
-        $this->Cell(30,10,$this->name);
+        $this->Cell($stgs['name_width'],$stgs['cell_height'],$this->name);
         //Move more to the right
-        $this->Cell(136);
+        $this->Cell($stgs['sid_x_offset']);
         //Some random text
-        $this->Cell(10,10,$this->sid);
+        $this->Cell($stgs['sid_width'],$stgs['cell_height'],$this->sid);
         //Line break
-        $this->Ln(20);
+        $this->Ln($stgs['body_y_offset']);
     }
 
     function Footer() {
+        $stgs = $this->settings->get();
+
         //align for paper
-        $this->SetY(-15);
+        $this->SetXY($stgs['foot_x'], $stgs['foot_y']);
         //Select Arial Bold 14
-        $this->SetFont('Arial','B',14);
-	//here we need to check if the last page was one or two columns
-	//if x is 10, left col
-	//if x is 105, right col
-	if($this->getX() == 10) //left column
-	    $this->Cell(16); 
-	else if($this->getX() == 105) //right column
-	    $this->Cell(-79);
+        $this->SetFont('Arial','B',$stgs['std_font_size']);
         //Print date
-        $this->Cell(10,10,date('d M Y'));
+        $this->Cell($stgs['date_width'],$stgs['cell_height'],date('d M Y'));
         //Move over
-        $this->Cell(152);
+        $this->Cell($stgs['pn_x_offset']);
         //Print page number
-        $this->Cell(2,10,$this->PageNo());
+        $this->Cell($stgs['pn_width'],10,$this->PageNo());
         //Move some more
-        $this->Cell(17);
+        $this->Cell($stgs['of_x_offset']);
         //Print number of pages
-        $this->Cell(10,10,'{nb}');
+        $this->Cell($stgs['of_width'],$stgs['cell_height'],'{nb}');
     }
 }
 
