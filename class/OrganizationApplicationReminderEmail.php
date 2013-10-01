@@ -41,7 +41,7 @@ class OrganizationApplicationReminderEmail
         $tpl['ORG_NAME'] = $name;
         $cmd = CommandFactory::getCommand('ViewOrganizationApplication');
         $cmd->setApplicationId($this->app->id);
-        $tpl['APP_LINK'] = 'https://sdr.appstate.edu' . $cmd->getUri();
+        $tpl['APP_LINK'] = 'https://clubconnect.appstate.edu' . $cmd->getUri();
 
         $email->setTags($tpl);
         $email->send();

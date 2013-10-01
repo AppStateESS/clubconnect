@@ -10,7 +10,7 @@
       {LOGO}
     <!-- END LOGO -->
 
-    <div id="fb-root"></div><script src="https://connect.facebook.net/en_US/all.js#appId=241152695910310&amp;xfbml=1"></script><fb:like href="https://sdr.appstate.edu/sdr/clubs/{ID}" send="true" layout="standard" show_faces="true" font="arial"></fb:like>
+    <div id="fb-root"></div><script src="https://connect.facebook.net/en_US/all.js#appId=241152695910310&amp;xfbml=1"></script><fb:like href="https://clubconnect.appstate.edu/sdr/clubs/{ID}" send="true" layout="standard" show_faces="true" font="arial"></fb:like>
 
   </div>
   <div class="col-lg-8 col-lg-pull-4">

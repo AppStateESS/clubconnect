@@ -43,15 +43,15 @@ class FullyApprovedApplicationEmail
 
         $roster = CommandFactory::getCommand('ShowOrganizationRoster');
         $roster->setOrganizationId($this->orgid);
-        $tpl['ROSTER_LINK'] = 'https://sdr.appstate.edu'.$roster->getUri();
+        $tpl['ROSTER_LINK'] = 'https://clubconnect.appstate.edu'.$roster->getUri();
 
         $view = CommandFactory::getCommand('ShowOrganizationProfile');
         $view->setOrganizationId($this->orgid);
-        $tpl['VIEW_PROFILE_LINK'] = 'https://sdr.appstate.edu'.$view->getUri();
+        $tpl['VIEW_PROFILE_LINK'] = 'https://clubconnect.appstate.edu'.$view->getUri();
 
         $edit = CommandFactory::getCommand('EditOrganizationProfile');
         $edit->setOrganizationId($this->orgid);
-        $tpl['EDIT_PROFILE_LINK'] = 'https://sdr.appstate.edu'.$edit->getUri();
+        $tpl['EDIT_PROFILE_LINK'] = 'https://clubconnect.appstate.edu'.$edit->getUri();
 
         $email->setTags($tpl);
         $email->send();

@@ -103,7 +103,7 @@ class OrganizationRegistrationCommand extends CrudCommand
                     $emails,
                     $reg['term'],
                     $reg['fullname'],
-                    'https://sdr.appstate.edu' . $href
+                    'https://clubconnect.appstate.edu' . $href
                 );
                 $email->send();
             }
