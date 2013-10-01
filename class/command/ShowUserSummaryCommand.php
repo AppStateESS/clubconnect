@@ -22,44 +22,61 @@ class ShowUserSummaryCommand extends Command
 			throw new PermissionException('You must be logged in to view the User Summary.');
 		}
 
-        /*
-        $term = Term::getCurrentTerm();
+        $vars = array();
 
+        $term = Term::getCurrentTerm();
+        $username = UserStatus::getUsername();
+
+        // Load Clubs
         PHPWS_Core::initModClass('sdr', 'MembershipFactory.php');
         $memberships = MembershipFactory::getConfirmedMembershipsByUsername(
-            UserStatus::getUsername(), $term);
+            $username, $term);
 
-        $pending = MembershipFactory::getPendingMembershipsByUsername(
-            UserStatus::getUsername(), $term);
+        if(empty($memberships)) {
+            $vars['TRANSCRIPT_LINK'] =
+                CommandFactory::getInstance()->get('ShowUserTranscriptCommand')->getURI();
+            $vars['CLUBDIR_LINK'] =
+                CommandFactory::getInstance()->get('ClubDirectory')->getURI();
+        } else {
+            $vars['MEMBERSHIPS'] = array();
+            $profile = CommandFactory::getInstance()->get(
+                'ShowOrganizationProfile', array('organization_id' => null));
+            foreach($memberships as $m) {
+                $org = $m->getOrganization();
+                $profile->setOrganizationId($org->getId());
+                $vars['MEMBERSHIPS'][] = array(
+                    'NAME' => $org->getName(false),
+                    'URL'  => $profile->getURI()
+                );
+            }
+        }
 
-        PHPWS_Core::initModClass('sdr', 'Member.php');
-        $member = new Member(NULL, UserStatus::getUsername());
+        // Load Notifications
+        $vars['NOTIFICATIONS'] = array();
 
-        PHPWS_Core::initModClass('sdr', 'OrganizationApplicationFactory.php');
-        $applications = OrganizationApplicationFactory::getApplicationsByUserId(
-            $member->id, $term);
-
-        PHPWS_Core::initModClass('sdr', 'SummaryMembershipsView.php');
-        $membershipsView = new SummaryMembershipsView($memberships);
-
-        PHPWS_Core::initModClass('sdr', 'SummaryPendingView.php');
-        $pendingView = new SummaryPendingView($pending);
-
-        PHPWS_Core::initModClass('sdr', 'SummaryApplicationsView.php');
-        $applicationsView = new SummaryApplicationsView($applications);
-
-        PHPWS_Core::initModClass('sdr', 'SummaryView.php');
-        $view = new SummaryView($term);
-        $view->addMain($membershipsView);
-        $view->addSide($pendingView);
-        $view->addSide($applicationsView);
-         */
-
-        $vars = array(
-            'CLUBREG_LINK' => CommandFactory::getCommand('ClubRegistrationFormCommand')->getURI(),
-            'TRANSCRIPT_LINK' => CommandFactory::getCommand('ShowUserTranscriptCommand')->getURI(),
-            'CLUBDIR_LINK' => CommandFactory::getCommand('ClubDirectory')->getURI()
-        );
+        // Outstanding Officer Requests
+        PHPWS_Core::initModClass('sdr', 'OfficerRequestController.php');
+        $orctrl = new OfficerRequestController();
+        $ors = $orctrl->get(null, UserStatus::getUsername());
+        $agree = CommandFactory::getInstance()->get(
+            'OfficerRequestAgreementCommand', array('offreq_id' => null));
+        foreach($ors as $or) {
+            if(!is_null($or['officers'][0])) continue;
+            $org = new Organization($or['organization_id'], $term);
+            $agree->setOfficerRequestId($or['officer_request_id']);
+            $vars['NOTIFICATIONS'][] = array(
+                'TITLE' => 'Club Registration',
+                'TEXT'  => 'Confirm your involvement in <strong>'.$org->getName(false).'</strong> to proceed.',
+                'URL'   => $agree->getURI()
+            );
+        }
+        // TODO: Membership Requests
+        // TODO: Administrative Club Membership Processing
+        //
+        if(empty($vars['NOTIFICATIONS'])) {
+            unset($vars['NOTIFICATIONS']);
+            $vars['NO_NOTIFICATIONS'] = 'You have no new notifications.';
+        }
 
         $context->setContent(
             PHPWS_Template::process($vars, 'sdr', 'SummaryView.tpl'));

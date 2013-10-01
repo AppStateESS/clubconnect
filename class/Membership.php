@@ -143,6 +143,11 @@ class Membership
         $this->member_id = $id;
     }
 
+    public function getOrganization()
+    {
+        return new Organization($this->organization_id, $this->term);
+    }
+
     public function getOrganizationId()
     {
         return $this->organization_id;

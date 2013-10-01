@@ -60,11 +60,11 @@
     <div class="col-lg-4">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Membership Status</h3>
+          <h3 class="panel-title">Actions</h3>
         </div>
-        <div class="panel-body">
-          {OPTIONS}
-        </div>
+          <ul class="nav nav-stacked nav-pills">
+            {OPTIONS}
+          </ul>
       </div>
     </div>
   <!-- END ACTIONS -->

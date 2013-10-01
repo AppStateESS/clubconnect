@@ -7,7 +7,7 @@
 
 class OfficerRequestController extends PDOController
 {
-    public function get($id = null)
+    public function get($id = null, $username = null)
     {
         $stmt = $this->pdo->prepare("
             SELECT
@@ -28,12 +28,16 @@ class OfficerRequestController extends PDOController
                 sdr_officer_request_view_current AS r
             LEFT OUTER JOIN sdr_member AS m
                 ON r.member_id = m.id ".
-            ($id ? "WHERE officer_request_id = :id" : ""). "
+            ($id ? "WHERE officer_request_id = :id" : "") .
+            ($username ? "WHERE person_email = :username" : "") . "
             ORDER BY id");
 
         $params = array();
         if($id) {
             $params['id'] = $id;
+        }
+        if($username) {
+            $params['username'] = $username;
         }
 
         if(!$this->safeExecute($stmt, $params)) return FALSE;
