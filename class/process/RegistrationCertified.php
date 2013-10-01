@@ -57,7 +57,7 @@ class RegistrationCertified
         $adminMembers = array();
         $regularMembers = array();
 
-        $emails = array();
+        $emails = array(SDRSettings::getApplicationEmail());
         foreach($req['officers'] as $officer) {
             $membership = MembershipFactory::getMembershipByOrganizationMember(
                 $reg['organization_id'],
