@@ -61,7 +61,7 @@ class ShowUserSummaryCommand extends Command
         $agree = CommandFactory::getInstance()->get(
             'OfficerRequestAgreementCommand', array('offreq_id' => null));
         foreach($ors as $or) {
-            if(!is_null($or['officers'][0])) continue;
+            if(!is_null($or['officers'][0]['fulfilled'])) continue;
             $org = new Organization($or['organization_id'], $term);
             $agree->setOfficerRequestId($or['officer_request_id']);
             $vars['NOTIFICATIONS'][] = array(

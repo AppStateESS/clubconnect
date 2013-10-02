@@ -36,8 +36,6 @@ class OrganizationRegistrationController extends PDOController
                 v.sgaelection        AS v_sgaelection,
                 v.state              AS v_state,
                 v.statecomment       AS v_oldstatecomment,
-                v.president          AS v_president,
-                v.advisor            AS v_advisor,
                 s.effective_date     AS s_effective_date,
                 s.committed_by       AS s_committed_by,
                 s.state              AS s_state
@@ -315,9 +313,6 @@ class OrganizationRegistrationController extends PDOController
     public function allowView($reg, $user)
     {
         if(UserStatus::hasPermission('registration_admin')) return true;
-
-        return strpos($reg['president'], $user) === TRUE ||
-               strpos($reg['advisor'], $user) === TRUE;
     }
 
     public function allowModify($reg, $user)
@@ -327,26 +322,7 @@ class OrganizationRegistrationController extends PDOController
 
     public function allowState($reg, $user)
     {
-        if($reg['state'] == 'Submitted') {
-            return UserStatus::hasPermission('registration_admin');
-        }
-
-        if($reg['state'] == 'Approved') {
-            return strpos($reg['president'], $user) === TRUE ||
-                   strpos($reg['advisor'], $user) === TRUE;
-        }
-
-        if($reg['state'] == 'PresCertified') {
-            return strpos($reg['advisor'], $user) === TRUE;
-        }
-
-        if($reg['state'] == 'AdvCertified') {
-            return strpos($reg['president'], $user) === TRUE;
-        }
-
-        if($reg['state'] == 'Certified') {
-            return UserStatus::hasPermission('club_admin');
-        }
+        return false;
     }
 
     public function countPending()
