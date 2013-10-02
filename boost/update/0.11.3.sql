@@ -219,14 +219,14 @@ BEGIN;
         rd.searchtags        AS searchtags,
         rd.sgaelection       AS sgaelection,
         rs.state             AS state,
-        rs.comment           AS statecomment,
+        rs.comment           AS statecomment
     FROM sdr_organization_registration AS r
     LEFT OUTER JOIN sdr_organization_registration_data AS rd
         ON r.registration_id = rd.registration_id
     LEFT OUTER JOIN sdr_organization_registration_state AS rs
         ON r.registration_id = rs.registration_id
     WHERE
-    AND rd.effective_date < NOW()
+        rd.effective_date < NOW()
     AND rd.effective_until IS NULL
     AND rs.effective_date < NOW()
     AND rs.effective_until IS NULL;

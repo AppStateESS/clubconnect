@@ -94,6 +94,8 @@ class RegistrationCertified
             $reg['fullname'],
             $reg['organization_id']
         );
+
+        $email->send();
     }
 }
 
