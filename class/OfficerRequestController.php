@@ -227,13 +227,13 @@ class OfficerRequestController extends PDOController
                     'middle_name' => null);
                 $stmt = $this->pdo->prepare("
                     INSERT INTO sdr_member (
-                        'id',
-                        'username',
-                        'prefix',
-                        'suffix',
-                        'first_name',
-                        'middle_name',
-                        'last_name'
+                        id,
+                        username,
+                        prefix,
+                        suffix,
+                        first_name,
+                        middle_name,
+                        last_name
                     ) VALUES (
                         nextval('sdr_member_seq'),
                         :username,
@@ -252,7 +252,7 @@ class OfficerRequestController extends PDOController
                 if($req['role_id'] == 53) {
                     $stmt = $this->pdo->prepare("
                         INSERT INTO sdr_advisor (
-                            'id'
+                            id
                         ) VALUES (
                             :id
                         )
