@@ -21,6 +21,7 @@
 /clubs/{organization_id}/editform   EditOrganizationProfileCommand
 /clubs/{organization_id}/history    ShowOrganizationHistoryCommand
 /clubs/{organization_id}/settings   OrganizationSettingsCommand
+/clubs/{organization_id}/membership RequestMembershipCommand
 /people                             PeopleCommand
 /people/{member_id}                 ShowMemberInfoCommand
 /people/{member_id}/transcript      ShowUserTranscriptCommand
