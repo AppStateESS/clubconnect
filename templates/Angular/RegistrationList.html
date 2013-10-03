@@ -1,28 +1,50 @@
-<div data-ng-controller="RegistrationListCtrl">
-  <div class="row">
-    <div class="col-lg-12">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Term</th>
-            <th>Organization Name</th>
-            <th>Submitted</th>
-            <th>Approved</th>
-            <th>Certified</th>
-            <th>Waiting On</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="cursor-pointer" ng-repeat="reg in sdrdata.registrations | orderBy:regOrder:true" data-ng-click="regRowClicked(reg.url)">
-            <td class="nowrap">{{prettyTerm(reg.term)}}</td>
-            <td>{{reg.fullname}} <span data-ng-show="reg.shortname">({{reg.shortname}})</span></td>
-            <td data-ng-class="getClass(reg, 'Submitted')">{{getStateEffective(reg, 'Submitted')}}</td>
-            <td data-ng-class="getClass(reg, 'Approved')">{{getStateEffective(reg, 'Approved')}}</td>
-            <td data-ng-class="getClass(reg, 'Certified')">{{getStateEffective(reg, 'Certified')}}</td>
-            <td>{{getWaiting(reg)}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<style>
+  .ui-scrollfix .reg-nav {
+    position: fixed;
+    margin-top: 0;
+    top: 0;
+  }
+
+  .ui-scrollfix .reg-list {
+    margin-top: 70px;
+  }
+</style>
+<div class="row" data-ng-controller="RegistrationListCtrl">
+  <div class="col-lg-12" data-ui-scrollfix="">
+    <nav class="navbar navbar-default reg-nav">
+      <form class="navbar-form navbar-left" role="form">
+        <div class="form-group">
+          <label class="sr-only" for="search">Search</label>
+          <input type="text" class="form-control" id="search" name="search" data-ng-model="search.string" placeholder="Begin Typing to Search">
+        </div>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="showComplete" data-ng-model="search.showComplete"> Show Completed Registrations
+          </label>
+        </div>
+      </form>
+    </nav>
+    <table class="table table-hover reg-list">
+      <thead>
+        <tr>
+          <th>Term</th>
+          <th>Organization Name</th>
+          <th>Submitted</th>
+          <th>Approved</th>
+          <th>Certified</th>
+          <th>Waiting On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cursor-pointer" ng-repeat="reg in sdrdata.registrations | filter:search.string | filter:certifiedFilter | orderBy:regOrder | orderBy:'term':true" data-ng-click="regRowClicked(reg.url)">
+          <td class="nowrap">{{prettyTerm(reg.term)}}</td>
+          <td>{{reg.fullname}} <span data-ng-show="reg.shortname">({{reg.shortname}})</span></td>
+          <td data-ng-class="getClass(reg, 'Submitted')">{{getStateEffective(reg, 'Submitted')}}</td>
+          <td data-ng-class="getClass(reg, 'Approved')">{{getStateEffective(reg, 'Approved')}}</td>
+          <td data-ng-class="getClass(reg, 'Certified')">{{getStateEffective(reg, 'Certified')}}</td>
+          <td>{{getWaiting(reg)}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
