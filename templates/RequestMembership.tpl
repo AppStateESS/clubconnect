@@ -5,5 +5,5 @@
 <!-- END AGREEMENTS -->
 <form class="form-inline" action="{REQUEST}" method="POST">
   <input type="submit" class="btn btn-large btn-success" name="request" value="Request">
-  <a class="btn btn-large btn-danger">Cancel</a>
+  <a class="btn btn-large btn-danger" href="{CANCEL}">Cancel</a>
 </form>
