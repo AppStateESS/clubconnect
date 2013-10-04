@@ -83,6 +83,9 @@ class OfficerRequestAgreementCommand extends CrudCommand
             if($reg['state'] == 'Rejected') {
                 // Registration has been rejected
                 $context->setContent(PHPWS_Template::process($vars, 'sdr', 'OfficerRequestRejected.tpl'));
+            } else if($reg['state'] != 'Approved') {
+                // Registration has not been approved
+                $context->setContent(PHPWS_Template::process($vars, 'sdr', 'OfficerRequestNotReady.tpl'));
             } else {
                 // User has not yet fulfilled an officer request
                 $context->setContent(PHPWS_Template::process($vars, 'sdr', 'OfficerRequest.tpl'));
