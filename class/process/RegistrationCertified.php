@@ -59,12 +59,13 @@ class RegistrationCertified
 
         $emails = array(SDRSettings::getApplicationEmail());
         foreach($req['officers'] as $officer) {
-            $membership = MembershipFactory::getMembershipByOrganizationMember(
-                $reg['organization_id'],
-                $officer['member_id'],
-                $reg['term']
-            );
-            if(count($membership) != 0) continue;   // Already a member
+            $db = new PHPWS_DB('sdr_membership');
+            $db->addJoin('left', 'sdr_membership', 'sdr_member', 'member_id', 'id');
+            $db->addWhere('sdr_membership.organization_id', $reg['organization_id']);
+            $db->addWhere('sdr_membership.term', $reg['term']);
+            $db->addWhere('sdr_member.id', $officer['member_id'], null, 'or', 'member');
+            $db->addWhere('sdr_member.username', $officer['person_email'], null, 'or', 'member');
+            if($db->count() != 0) continue;  // Already a member
 
             if($officer['role_id'] == 53 || $officer['role_id'] == 34) {
                 $officer['admin'] = 1;
