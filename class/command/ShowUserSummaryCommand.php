@@ -78,7 +78,6 @@ class ShowUserSummaryCommand extends Command
             Term::getCurrentTerm());
         $accept = CommandFactory::getInstance()->get(
             'AcceptMembershipCommand', array('membership_id' => null));
-        var_dump($mrs);
         foreach($mrs as $mr) {
             $accept->setMembershipId($mr->getId());
             $vars['NOTIFICATIONS'][] = array(

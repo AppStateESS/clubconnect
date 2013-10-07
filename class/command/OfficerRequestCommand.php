@@ -27,6 +27,11 @@ class OfficerRequestCommand extends CrudCommand
         $this->offreq_id = $id;
     }
 
+    public function allowExecute()
+    {
+        return UserStatus::isUser();
+    }
+
     public function get(CommandContext $context)
     {
         if($this->offreq_id == 'new') {

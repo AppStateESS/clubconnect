@@ -246,10 +246,13 @@ class OfficerRequestController extends PDOController
                     ");
 
                 $this->safeExecute($stmt, $member);
-                $row = $stmt->fetchOne(PDO::FETCH_NUM);
+                $row = $stmt->fetch(PDO::FETCH_NUM);
                 $req['member_id'] = $row[0];
+            }
 
-                if($req['role_id'] == 53) {
+            if($req['role_id'] == 53) {
+                $advisor = new Advisor($req['member_id']);
+                if($advisor->getId() == -1) {
                     $stmt = $this->pdo->prepare("
                         INSERT INTO sdr_advisor (
                             id
@@ -259,8 +262,6 @@ class OfficerRequestController extends PDOController
                     ");
                     $advisor = array('id' => $req['member_id']);
                     $this->safeExecute($stmt, $advisor);
-                } else {
-                    throw new Exception('Not prepared to create Student record');
                 }
             }
 
