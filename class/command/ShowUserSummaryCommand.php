@@ -70,7 +70,23 @@ class ShowUserSummaryCommand extends Command
                 'URL'   => $agree->getURI()
             );
         }
-        // TODO: Membership Requests
+
+        // Membership Requests
+        PHPWS_Core::initModClass('sdr', 'MembershipFactory.php');
+        $mrs = MembershipFactory::getPendingMembershipsByUsername(
+            UserStatus::getUsername(),
+            Term::getCurrentTerm());
+        $accept = CommandFactory::getInstance()->get(
+            'AcceptMembershipCommand', array('membership_id' => null));
+        var_dump($mrs);
+        foreach($mrs as $mr) {
+            $accept->setMembershipId($mr->getId());
+            $vars['NOTIFICATIONS'][] = array(
+                'TITLE' => 'Membership Request',
+                'TEXT'  => '<strong>'.$mr->getOrganizationName(false).'</strong> has requested that you become a member.',
+                'URL'   => $accept->getURI()
+            );
+        }
         // TODO: Administrative Club Membership Processing
         //
         if(empty($vars['NOTIFICATIONS'])) {

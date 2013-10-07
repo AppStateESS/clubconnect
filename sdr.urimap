@@ -22,6 +22,7 @@
 /clubs/{organization_id}/history    ShowOrganizationHistoryCommand
 /clubs/{organization_id}/settings   OrganizationSettingsCommand
 /clubs/{organization_id}/membership RequestMembershipCommand
+/membership/{membership_id}         AcceptMembershipCommand
 /people                             PeopleCommand
 /people/{member_id}                 ShowMemberInfoCommand
 /people/{member_id}/transcript      ShowUserTranscriptCommand

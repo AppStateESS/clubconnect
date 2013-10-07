@@ -8,7 +8,7 @@
  * @package    mod
  * @subpackage sdr
  */
-PHPWS_Core::initModClass('sdr', 'LockableCommand.php');
+PHPWS_Core::initModClass('sdr', 'CrudCommand.php');
 
 class RequestMembershipCommand extends CrudCommand {
 
