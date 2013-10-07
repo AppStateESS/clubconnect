@@ -77,8 +77,11 @@ class RegistrationCertified
             } else {
                 if($officer['member_id']) {
                     $member = new Member($officer['member_id']);
-                } else {
+                } else if($officer['person_email']) {
                     $member = new Member(null, $officer['person_email']);
+                } else {
+                    SDR::silentNotify(new Exception('person_email blank for officer request ' . json_encode($officer)));
+                    continue;
                 }
                 $membership = $mgr->addMember($member, $reg['term'], 0, 1, false, $officer['role_id']);
                 $membership->save();
