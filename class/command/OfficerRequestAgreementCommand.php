@@ -27,6 +27,11 @@ class OfficerRequestAgreementCommand extends CrudCommand
         $this->offreq_id = $id;
     }
 
+    public function allowExecute()
+    {
+        return UserStatus::isUser();
+    }
+
     public function get(CommandContext $context)
     {
         $offreq = $this->ctrl->get($this->offreq_id);
