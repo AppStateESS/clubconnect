@@ -29,7 +29,7 @@ class OfficerRequestCommand extends CrudCommand
 
     public function allowExecute()
     {
-        return UserStatus::isUser();
+        return !UserStatus::isGuest();
     }
 
     public function get(CommandContext $context)
