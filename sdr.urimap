@@ -24,6 +24,7 @@
 /clubs/{organization_id}/membership RequestMembershipCommand
 /membership/{membership_id}         AcceptMembershipCommand
 /people                             PeopleCommand
+/people/new                         ShowCreateMemberCommand
 /people/{member_id}                 ShowMemberInfoCommand
 /people/{member_id}/transcript      ShowUserTranscriptCommand
 /masquerade/unmask                  RemoveMaskCommand
