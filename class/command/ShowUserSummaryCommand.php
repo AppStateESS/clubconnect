@@ -59,6 +59,7 @@ class ShowUserSummaryCommand extends Command
         $orctrl = new OfficerRequestController();
         $crctrl = new OrganizationRegistrationController();
         $ors = $orctrl->get(null, UserStatus::getUsername());
+        if(!$ors) $ors = array();   // If none, we don't care
         $agree = CommandFactory::getInstance()->get(
             'OfficerRequestAgreementCommand', array('offreq_id' => null));
         foreach($ors as $or) {
