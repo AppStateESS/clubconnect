@@ -212,8 +212,6 @@ class OfficerRequestController extends PDOController
             if(!is_null($member->getId())) {
                 // Member Exists, link
                 $req['member_id'] = $member->getId();
-
-                $req['member_id'] = $member->getId();
             } else {
                 // TODO: Try SOAP
                 // Member does not exist, create
@@ -248,6 +246,7 @@ class OfficerRequestController extends PDOController
                 $this->safeExecute($stmt, $member);
                 $row = $stmt->fetch(PDO::FETCH_NUM);
                 $req['member_id'] = $row[0];
+                $member = new Member(null, $username);
             }
 
             if($req['role_id'] == 53) {
