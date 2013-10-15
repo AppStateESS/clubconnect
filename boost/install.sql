@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE sdr_member (
     id integer NOT NULL,
     username character varying(30),
@@ -67,7 +69,8 @@ CREATE TABLE sdr_organization (
     reason_access_denied character varying(255),
     rollover_stf smallint DEFAULT 0 NOT NULL,
     rollover_fts smallint DEFAULT 1 NOT NULL,
-    student_managed smallint NOT NULL
+    student_managed smallint NOT NULL,
+    agreement varchar
 );
 
 CREATE TABLE sdr_organization_instance (
@@ -75,6 +78,7 @@ CREATE TABLE sdr_organization_instance (
     organization_id integer NOT NULL,
     term integer NOT NULL,
     name text NOT NULL,
+    shortname varchar,
     "type" integer NOT NULL,
     address character varying(255),
     bank character varying(255),
@@ -169,38 +173,6 @@ CREATE TABLE sdr_ncaa (
     sport character varying(30)
 );
 
-CREATE TABLE sdr_organization_application (
-    id          integer NOT NULL,
-    parent      integer,
-    created     TIMESTAMPTZ NOT NULL,
-    updated     TIMESTAMPTZ NOT NULL,
-    term        integer NOT NULL,
-    fullname    varchar NOT NULL,
-    shortname   varchar,
-    address     varchar NOT NULL,
-    user_type   integer,
-    user_id     integer NOT NULL,
-    website     varchar,
-    elections   varchar,
-    bank        varchar,
-    ein         varchar,
-    searchtags  varchar,
-    purpose     varchar,
-    description varchar,
-    meetings    varchar,
-    location    varchar,
-    sgaelection varchar,
-    approved    TIMESTAMPTZ,
-    certified   TIMESTAMPTZ,
-    approved_by varchar
-    organization_id integer
-);
-
-CREATE SEQUENCE sdr_organization_application_seq;
-
-CREATE VIEW sdr_organization_full AS
-    SELECT o.id, o.banner_id, o.locked, o.reason_access_denied, o.rollover_stf, o.rollover_fts, o.student_managed, i.id AS instance_id, i.term, i.name, i.address, i.bank, i.ein, i."type" AS type_id, t.name AS category FROM ((sdr_organization o JOIN sdr_organization_instance i ON ((i.organization_id = o.id))) JOIN sdr_organization_type t ON ((i."type" = t.id)));
-
 CREATE TABLE sdr_organization_profile (
     id integer NOT NULL,
     organization_id integer,
@@ -208,13 +180,26 @@ CREATE TABLE sdr_organization_profile (
     club_logo character varying(255),
     meeting_location character varying(255),
     meeting_date character varying(255),
-    description text,
+    description varchar,
+    requirements varchar,
     site_url character varying(255),
     contact_info text
 );
 
+CREATE VIEW sdr_organization_full AS
+SELECT o.id, o.banner_id, o.locked, o.reason_access_denied, o.rollover_stf, o.rollover_fts, o.student_managed, o.agreement, i.id AS instance_id, i.term, i.name, i.shortname, i.address, i.bank, i.ein, i.type AS type_id, t.name AS category
+   FROM sdr_organization o
+   JOIN sdr_organization_instance i ON i.organization_id = o.id
+   JOIN sdr_organization_type t ON i.type = t.id;
+
 CREATE VIEW sdr_organization_recent AS
-    SELECT sdr_organization_full.id, sdr_organization_full.banner_id, sdr_organization_full.locked, sdr_organization_full.reason_access_denied, sdr_organization_full.rollover_stf, sdr_organization_full.rollover_fts, sdr_organization_full.student_managed, sdr_organization_full.instance_id, sdr_organization_full.term, sdr_organization_full.name, sdr_organization_full.address, sdr_organization_full.bank, sdr_organization_full.ein, sdr_organization_full.type_id, sdr_organization_full.category FROM (sdr_organization_full JOIN (SELECT max(sdr_organization_instance.term) AS maxterm, sdr_organization_instance.organization_id FROM sdr_organization_instance GROUP BY sdr_organization_instance.organization_id) maxterm ON (((sdr_organization_full.id = maxterm.organization_id) AND (sdr_organization_full.term = maxterm.maxterm))));
+SELECT id, banner_id, locked, reason_access_denied, rollover_stf, rollover_fts, student_managed, agreement, instance_id, sdr_organization_full.term, name, shortname, address, bank, ein, type_id, category 
+    FROM sdr_organization_full 
+    JOIN (
+        SELECT max(sdr_organization_instance.term) AS maxterm, sdr_organization_instance.organization_id
+        FROM sdr_organization_instance
+        GROUP BY sdr_organization_instance.organization_id)
+    maxterm ON sdr_organization_full.id = maxterm.organization_id AND sdr_organization_full.term = maxterm.maxterm;
 
 CREATE TABLE sdr_scholarship (
     id integer DEFAULT 0 NOT NULL,
@@ -320,8 +305,6 @@ ALTER TABLE ONLY sdr_membership
     ADD CONSTRAINT sdr_membership_unique UNIQUE (member_id, organization_id, term);
 ALTER TABLE ONLY sdr_ncaa
     ADD CONSTRAINT sdr_ncaa_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY sdr_organization_application
-    ADD CONSTRAINT sdr_organization_application_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY sdr_organization_instance
     ADD CONSTRAINT sdr_organization_instance_organization_id_key UNIQUE (organization_id, term);
 ALTER TABLE ONLY sdr_organization_instance
@@ -381,10 +364,6 @@ ALTER TABLE ONLY sdr_membership_role
     ADD CONSTRAINT sdr_membership_role_membership_id_fkey FOREIGN KEY (membership_id) REFERENCES sdr_membership(id) ON DELETE CASCADE;
 ALTER TABLE ONLY sdr_membership
     ADD CONSTRAINT sdr_membership_term_fkey FOREIGN KEY (term) REFERENCES sdr_term(term);
-ALTER TABLE ONLY sdr_organization_application
-    ADD CONSTRAINT sdr_organization_application_parent_fkey FOREIGN KEY (parent) REFERENCES sdr_organization(id);
-ALTER TABLE ONLY sdr_organization_application
-    ADD CONSTRAINT sdr_organization_application_term_fkey FOREIGN KEY (term) REFERENCES sdr_term(term);
 ALTER TABLE ONLY sdr_organization_instance
     ADD CONSTRAINT sdr_organization_instance_organization_id_fkey FOREIGN KEY (organization_id) REFERENCES sdr_organization(id);
 ALTER TABLE ONLY sdr_organization_instance
@@ -421,46 +400,156 @@ CREATE TABLE sdr_organization_uberadmin (
            (all_clubs IS     NULL AND type_id IS     NULL AND organization_id IS NOT NULL))
 );
 
-CREATE TABLE sdr_request_officer (
-    request_id INTEGER NOT NULL,
-    organization_id INTEGER,
-    application_id INTEGER,
-    person_email VARCHAR NOT NULL,
-    role_id INTEGER NOT NULL,
-    admin INTEGER NOT NULL,
-    requested TIMESTAMPTZ NOT NULL,
-    approved TIMESTAMPTZ,
-    fulfilled TIMESTAMPTZ,
-    PRIMARY KEY (request_id),
-    FOREIGN KEY (organization_id) REFERENCES sdr_organization (id),
-    FOREIGN KEY (role_id)         REFERENCES sdr_role (id),
-    FOREIGN KEY (application_id)  REFERENCES sdr_organization_application (id),
-    CHECK (organization_id IS NOT NULL OR application_id IS NOT NULL)
-);
-
-CREATE SEQUENCE sdr_request_officer_seq;
-
 CREATE TABLE sdr_error (
     id         INTEGER     NOT NULL,
     occurred   TIMESTAMPTZ NOT NULL,
     status     VARCHAR     NOT NULL,
-    message    VARCHAR
-    persistent VARCHAR
+    message    VARCHAR,
+    persistent VARCHAR,
     server     VARCHAR
 );
 
 CREATE SEQUENCE sdr_error_seq;
 
-CREATE TABLE sdr_event (
-    event_id   INTEGER     NOT NULL,
-    event_seq  INTEGER     NOT NULL,
-    action     VARCHAR     NOT NULL,
-    entity     VARCHAR     NOT NULL,
-    entity_id  INTEGER     NOT NULL,
-    field      VARCHAR,
-    field_from VARCHAR,
-    field_to   VARCHAR,
-    PRIMARY KEY (event_id, event_seq)
+CREATE TABLE sdr_officer_request (
+    officer_request_id INTEGER NOT NULL,
+    organization_id    INTEGER NOT NULL,
+    submitted          TIMESTAMPTZ NOT NULL,
+    approved           TIMESTAMPTZ,
+    fulfilled          TIMESTAMPTZ,
+    PRIMARY KEY (officer_request_id),
+    FOREIGN KEY (organization_id) REFERENCES sdr_organization(id)
 );
 
-CREATE SEQUENCE sdr_event_seq;
+CREATE TABLE sdr_officer_request_member (
+    id                 INTEGER NOT NULL,
+    officer_request_id INTEGER NOT NULL,
+    member_id          INTEGER,
+    person_email       VARCHAR,
+    role_id            INTEGER NOT NULL,
+    admin              INTEGER NOT NULL,
+    fulfilled          TIMESTAMPTZ,
+    PRIMARY KEY (id),
+    FOREIGN KEY (officer_request_id) REFERENCES sdr_officer_request(officer_request_id),
+    FOREIGN KEY (member_id)          REFERENCES sdr_member(id),
+    FOREIGN KEY (role_id)            REFERENCES sdr_role(id),
+    CHECK (member_id IS NOT NULL OR person_email IS NOT NULL)
+);
+
+CREATE SEQUENCE sdr_officer_request_member_seq;
+
+CREATE VIEW sdr_officer_request_view_current AS
+SELECT 
+    r.officer_request_id,
+    r.organization_id,
+    o.member_id,
+    CASE
+        WHEN o.member_id IS NOT NULL THEN m.username
+        ELSE o.person_email
+    END AS person_email,
+    o.role_id,
+    o.admin,
+    r.submitted,
+    r.approved,
+    o.fulfilled
+FROM sdr_officer_request AS r
+LEFT OUTER JOIN sdr_officer_request_member AS o
+    ON r.officer_request_id = o.officer_request_id
+LEFT OUTER JOIN sdr_member AS m
+    ON o.member_id = m.id;
+
+CREATE TABLE sdr_organization_registration (
+    registration_id    INTEGER NOT NULL,
+    term               INTEGER NOT NULL,
+    organization_id    INTEGER,
+    officer_request_id INTEGER NOT NULL,
+    PRIMARY KEY (registration_id),
+    UNIQUE (registration_id, term, organization_id),
+    FOREIGN KEY (organization_id)    REFERENCES sdr_organization (id),
+    FOREIGN KEY (term)               REFERENCES sdr_term         (term),
+    FOREIGN KEY (officer_request_id) REFERENCES sdr_officer_request(officer_request_id)
+);
+
+CREATE TABLE sdr_organization_registration_data (
+    registration_id INTEGER NOT NULL,
+    effective_date  TIMESTAMPTZ NOT NULL,
+    effective_until TIMESTAMPTZ,
+    committed_by    VARCHAR NOT NULL,
+    parent          INTEGER,
+    fullname        VARCHAR,
+    shortname       VARCHAR,
+    address         VARCHAR,
+    bank            VARCHAR,
+    ein             VARCHAR,
+    purpose         VARCHAR,
+    description     VARCHAR,
+    requirements    VARCHAR,
+    meetings        VARCHAR,
+    location        VARCHAR,
+    website         VARCHAR,
+    elections       VARCHAR,
+    searchtags      VARCHAR,
+    sgaelection     INTEGER,
+    PRIMARY KEY (registration_id, effective_date),
+    FOREIGN KEY (parent)          REFERENCES sdr_organization (id),
+    FOREIGN KEY (registration_id) REFERENCES sdr_organization_registration (registration_id)
+);
+
+CREATE TABLE sdr_organization_registration_state (
+    registration_id INTEGER NOT NULL,
+    effective_date  TIMESTAMPTZ NOT NULL,
+    effective_until TIMESTAMPTZ,
+    committed_by    VARCHAR NOT NULL,
+    state           VARCHAR NOT NULL,
+    comment         VARCHAR,
+    PRIMARY KEY (registration_id, effective_date),
+    FOREIGN KEY (registration_id) REFERENCES sdr_organization_registration (registration_id)
+);
+
+CREATE OR REPLACE VIEW sdr_organization_registration_view_current AS
+SELECT
+    r.registration_id    AS registration_id,
+    r.term               AS term,
+    r.organization_id    AS organization_id,
+    r.officer_request_id AS officer_request_id,
+    rd.effective_date    AS updated,
+    rd.committed_by      AS updated_by,
+    rs.effective_date    AS state_updated,
+    rs.committed_by      AS state_updated_by,
+    rd.parent            AS parent,
+    rd.fullname          AS fullname,
+    rd.shortname         AS shortname,
+    rd.address           AS address,
+    rd.bank              AS bank,
+    rd.ein               AS ein,
+    rd.purpose           AS purpose,
+    rd.description       AS description,
+    rd.requirements      AS requirements,
+    rd.meetings          AS meetings,
+    rd.location          AS location,
+    rd.website           AS website,
+    rd.elections         AS elections,
+    rd.searchtags        AS searchtags,
+    rd.sgaelection       AS sgaelection,
+    rs.state             AS state,
+    rs.comment           AS statecomment,
+    rp.person_email      AS president,
+    ra.person_email      AS advisor
+FROM sdr_organization_registration AS r
+LEFT OUTER JOIN sdr_organization_registration_data AS rd
+    ON r.registration_id = rd.registration_id
+LEFT OUTER JOIN sdr_organization_registration_state AS rs
+    ON r.registration_id = rs.registration_id
+LEFT OUTER JOIN sdr_officer_request_view_current AS rp
+    ON r.officer_request_id = rp.officer_request_id
+LEFT OUTER JOIN sdr_officer_request_view_current AS ra
+    ON r.officer_request_id = ra.officer_request_id
+WHERE
+    (rp.role_id = 34 OR rp.role_id IS NULL)
+AND (ra.role_id = 53 OR ra.role_id IS NULL)
+AND rd.effective_date < NOW()
+AND rd.effective_until IS NULL
+AND rs.effective_date < NOW()
+AND rs.effective_until IS NULL;
+
+COMMIT;
