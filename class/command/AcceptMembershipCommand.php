@@ -5,34 +5,48 @@
  * @author Jeff Tickle
  */
 
-PHPWS_Core::initModClass('sdr', 'Command.php');
+PHPWS_Core::initModClass('sdr', 'CrudCommand.php');
 
-class AcceptMembershipCommand extends Command {
+class AcceptMembershipCommand extends CrudCommand {
     
-    public $membershipId;
-    
-    function setMembershipId($id){
-        $this->membershipId = $id;
-    }
-    
-    function getRequestVars()
+    public $membership_id;
+
+    public function getParams()
     {
-        $vars = array('action' => 'AcceptMembership');
-    	
-        if(isset($this->membershipId)) {
-           $vars['membership_id'] = $this->membershipId;
-        }
-    	
-        return $vars;
+        return array('membership_id');
     }
-    
-    function execute(CommandContext $context)
+
+    public function setMembershipId($id)
     {
-        if(isset($this->membershipId)) {
-            $membership_id = $this->membershipId;
-        } else {
-            $membership_id = $context->get('membership_id');
-        }
+        $this->membership_id = $id;
+    }
+
+    public function get(CommandContext $context)
+    {
+        $membership = new Membership($this->membership_id);
+        $org = $membership->getOrganization();
+        $orgMgr = new OrganizationManager($org);
+
+        $orgMgr->ifLocked('You may not accept membership in this organization because ');
+
+        $summaryCmd = CommandFactory::getInstance()->getCommand('ShowUserSummaryCommand');
+
+        $vars = array(
+            'FULLNAME'   => $org->getName(false),
+            'TERM'       => Term::getCurrentTerm(),
+            'ACCEPT'     => $this->getURI(),
+            'CANCEL'     => $summaryCmd->getURI(),
+            'AGREEMENTS' => array(array(
+                'CONTENT' => $org->getAgreement()))
+        );
+
+        $context->setContent(PHPWS_Template::process(
+            $vars, 'sdr', 'AcceptMembership.tpl'));
+    }
+   
+    public function post(CommandContext $context)
+    {
+        $membership_id = $this->membership_id;
         
         if(is_null($membership_id) || !isset($membership_id)){
             throw new InvalidArgumentException('No Membership specified to AcceptMembershipCommand');

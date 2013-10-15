@@ -19,7 +19,12 @@ class PersonController extends PDOController
         // statements, but we're not evaluating it repeatedly, and it still has 
         // all the wonderful injection protection.
         $pg_hack = substr(str_repeat(
-            'm.first_name || m.middle_name || m.last_name || m.username || to_char(m.id, \'999999999\') ILIKE ? AND ',
+            "coalesce(m.first_name,  '') ||
+             coalesce(m.middle_name, '') ||
+             coalesce(m.last_name,   '') ||
+             coalesce(m.username,    '') ||
+             to_char(m.id, '999999999')
+             ILIKE ? AND ",
             count($terms)), 0, -5);
 
         $pdo = $this->pdo;
@@ -31,7 +36,7 @@ class PersonController extends PDOController
                 m.first_name AS firstname,
                 m.middle_name AS middlename,
                 m.last_name AS lastname,
-                m.last_name || ', ' || m.first_name || ' ' || m.middle_name AS fullname,
+                coalesce(m.last_name, '') || ', ' || coalesce(m.first_name, '') || ' ' || coalesce(m.middle_name, '') AS fullname,
                 s.id IS NOT NULL AS student,
                 a.id IS NOT NULL AS facstaff
             FROM

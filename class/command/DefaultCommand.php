@@ -7,7 +7,7 @@ class DefaultCommand extends Command
     public function execute(CommandContext $context)
     {
         if(UserStatus::isGuest()) {
-            $cmd = CommandFactory::getCommand('ShowOrganizationBrowser');
+            $cmd = CommandFactory::getCommand('ClubDirectory');
         } else if(UserStatus::isAdmin()) {
             $cmd = CommandFactory::getCommand('ShowAdminSummary');
         } else {

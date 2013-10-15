@@ -31,7 +31,7 @@ class FullyApprovedApplicationEmail
         $subject = "$term Club Registration Complete: $name";
 
         $email = new EmailMessage(NULL, NULL,
-            $emails,
+            $this->emails,
             NULL,
             NULL,
             NULL,

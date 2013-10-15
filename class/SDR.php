@@ -62,11 +62,12 @@ abstract class SDR
             $cmd = CommandFactory::getInstance()->getByUri($this->context->getUri());
         }
 
+        $this->activeCommand = $cmd;
+
         if(!$cmd->allowExecute()) {
             PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
             throw new PermissionException('Permission denied.');
         }
-        $this->activeCommand = $cmd;
         $cmd->execute($this->context);
         $cmd->log();
     }

@@ -1,6 +1,6 @@
 Hello,
 [[BLANK]]
-This is a status update regarding the Club Registration Form for {ORG_NAME}.  It indicated that you are to be either a President or Advisor for this organization.
+This is a status update regarding the Club Registration Form for {ORG_NAME}.  It indicated that you are to be an administrator for this organization.
 [[BLANK]]
 {APPROVING_USER} has CONFIRMED association with this organization.
 [[BLANK]]

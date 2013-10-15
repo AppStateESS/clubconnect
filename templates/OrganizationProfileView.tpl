@@ -12,22 +12,18 @@
 
     <div id="fb-root"></div><script src="https://connect.facebook.net/en_US/all.js#appId=241152695910310&amp;xfbml=1"></script><fb:like href="https://clubconnect.appstate.edu/sdr/clubs/{ID}" send="true" layout="standard" show_faces="true" font="arial"></fb:like>
 
-  </div>
-  <div class="col-lg-8 col-lg-pull-4">
+    <!-- BEGIN OPTIONS -->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Membership</h3>
+      </div>
+      <ul class="nav nav-stacked nav-pills">
+        {OPTIONS}
+      </ul>
+    </div>
+    <!-- END OPTIONS -->
 
-    <!-- BEGIN PURPOSE -->
-      <p class="lead">{PURPOSE}</p>
-    <!-- END PURPOSE -->
-
-    <!-- BEGIN DESCRIPTION -->
-      <div>{DESCRIPTION}</div>
-    <!-- END DESCRIPTION -->
-  </div>
-</div>
-<div class="row">
-
-  <!-- BEGIN MEETINGS -->
-    <div class="col-lg-4">
+    <!-- BEGIN MEETINGS -->
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Meetings</h3>
@@ -37,11 +33,9 @@
           <p><i class="icon-map-marker" title="Location"></i> {LOCATION}</p>
         </div>
       </div>
-    </div>
-  <!-- END MEETINGS -->
+    <!-- END MEETINGS -->
 
-  <!-- BEGIN CONTACT -->
-    <div class="col-lg-4">
+    <!-- BEGIN CONTACT -->
       <div class="panel">
         <div class="panel-heading">
           <h3 class="panel-title">Contact</h3>
@@ -53,19 +47,22 @@
           <!-- END CONTACT_EMAIL -->
         </div>
       </div>
-    </div>
-  <!-- END CONTACT -->
+    <!-- END CONTACT -->
 
-  <!-- BEGIN ACTIONS -->
-    <div class="col-lg-4">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title">Actions</h3>
-        </div>
-          <ul class="nav nav-stacked nav-pills">
-            {OPTIONS}
-          </ul>
-      </div>
-    </div>
-  <!-- END ACTIONS -->
+  </div>
+  <div class="col-lg-8 col-lg-pull-4">
+
+    <!-- BEGIN PURPOSE -->
+      <p class="lead">{PURPOSE}</p>
+    <!-- END PURPOSE -->
+
+    <!-- BEGIN DESCRIPTION -->
+      <div>{DESCRIPTION}</div>
+    <!-- END DESCRIPTION -->
+
+    <!-- BEGIN REQUIREMENTS -->
+      <h3>Requirements</h3>
+      <div>{REQUIREMENTS}</div>
+    <!-- END REQUIREMENTS -->
+  </div>
 </div>

@@ -212,8 +212,6 @@ class OfficerRequestController extends PDOController
             if(!is_null($member->getId())) {
                 // Member Exists, link
                 $req['member_id'] = $member->getId();
-
-                $req['member_id'] = $member->getId();
             } else {
                 // TODO: Try SOAP
                 // Member does not exist, create
@@ -227,13 +225,13 @@ class OfficerRequestController extends PDOController
                     'middle_name' => null);
                 $stmt = $this->pdo->prepare("
                     INSERT INTO sdr_member (
-                        'id',
-                        'username',
-                        'prefix',
-                        'suffix',
-                        'first_name',
-                        'middle_name',
-                        'last_name'
+                        id,
+                        username,
+                        prefix,
+                        suffix,
+                        first_name,
+                        middle_name,
+                        last_name
                     ) VALUES (
                         nextval('sdr_member_seq'),
                         :username,
@@ -246,21 +244,23 @@ class OfficerRequestController extends PDOController
                     ");
 
                 $this->safeExecute($stmt, $member);
-                $row = $stmt->fetchOne(PDO::FETCH_NUM);
+                $row = $stmt->fetch(PDO::FETCH_NUM);
                 $req['member_id'] = $row[0];
+                $member = new Member(null, $username);
+            }
 
-                if($req['role_id'] == 53) {
+            if($req['role_id'] == 53) {
+                $advisor = new Advisor($req['member_id']);
+                if($advisor->getId() == -1) {
                     $stmt = $this->pdo->prepare("
                         INSERT INTO sdr_advisor (
-                            'id'
+                            id
                         ) VALUES (
                             :id
                         )
                     ");
                     $advisor = array('id' => $req['member_id']);
                     $this->safeExecute($stmt, $advisor);
-                } else {
-                    throw new Exception('Not prepared to create Student record');
                 }
             }
 

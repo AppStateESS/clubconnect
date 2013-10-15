@@ -57,11 +57,18 @@ class ShowUserSummaryCommand extends Command
         // Outstanding Officer Requests
         PHPWS_Core::initModClass('sdr', 'OfficerRequestController.php');
         $orctrl = new OfficerRequestController();
+        $crctrl = new OrganizationRegistrationController();
         $ors = $orctrl->get(null, UserStatus::getUsername());
+        if(!$ors) $ors = array();   // If none, we don't care
         $agree = CommandFactory::getInstance()->get(
             'OfficerRequestAgreementCommand', array('offreq_id' => null));
         foreach($ors as $or) {
-            if(!is_null($or['officers'][0])) continue;
+            if(!is_null($or['officers'][0]['fulfilled'])) continue;
+            $reg = $crctrl->get(null, null, null, $or['officer_request_id']);
+            if(!count($reg)) {
+                throw new Exception('Officer request ID ' . $or['officer_request_id'] . 'did not have a corresponding registration.');
+            }
+            if($reg[0]['state'] != 'Approved') continue;
             $org = new Organization($or['organization_id'], $term);
             $agree->setOfficerRequestId($or['officer_request_id']);
             $vars['NOTIFICATIONS'][] = array(
@@ -70,7 +77,22 @@ class ShowUserSummaryCommand extends Command
                 'URL'   => $agree->getURI()
             );
         }
-        // TODO: Membership Requests
+
+        // Membership Requests
+        PHPWS_Core::initModClass('sdr', 'MembershipFactory.php');
+        $mrs = MembershipFactory::getPendingMembershipsByUsername(
+            UserStatus::getUsername(),
+            Term::getCurrentTerm());
+        $accept = CommandFactory::getInstance()->get(
+            'AcceptMembershipCommand', array('membership_id' => null));
+        foreach($mrs as $mr) {
+            $accept->setMembershipId($mr->getId());
+            $vars['NOTIFICATIONS'][] = array(
+                'TITLE' => 'Membership Request',
+                'TEXT'  => '<strong>'.$mr->getOrganizationName(false).'</strong> has requested that you become a member.',
+                'URL'   => $accept->getURI()
+            );
+        }
         // TODO: Administrative Club Membership Processing
         //
         if(empty($vars['NOTIFICATIONS'])) {

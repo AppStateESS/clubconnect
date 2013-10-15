@@ -219,22 +219,14 @@ BEGIN;
         rd.searchtags        AS searchtags,
         rd.sgaelection       AS sgaelection,
         rs.state             AS state,
-        rs.comment           AS statecomment,
-        rp.person_email      AS president,
-        ra.person_email      AS advisor
+        rs.comment           AS statecomment
     FROM sdr_organization_registration AS r
     LEFT OUTER JOIN sdr_organization_registration_data AS rd
         ON r.registration_id = rd.registration_id
     LEFT OUTER JOIN sdr_organization_registration_state AS rs
         ON r.registration_id = rs.registration_id
-    LEFT OUTER JOIN sdr_officer_request_view_current AS rp
-        ON r.officer_request_id = rp.officer_request_id
-    LEFT OUTER JOIN sdr_officer_request_view_current AS ra
-        ON r.officer_request_id = ra.officer_request_id
     WHERE
-        (rp.role_id = 34 OR rp.role_id IS NULL)
-    AND (ra.role_id = 53 OR ra.role_id IS NULL)
-    AND rd.effective_date < NOW()
+        rd.effective_date < NOW()
     AND rd.effective_until IS NULL
     AND rs.effective_date < NOW()
     AND rs.effective_until IS NULL;
