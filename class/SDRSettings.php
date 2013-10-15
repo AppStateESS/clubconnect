@@ -66,8 +66,13 @@ class SDRSettings
         Layout::addPageTitle('ACHTUNG!  Gefährlichen Einstellungen!');
         return PHPWS_Template::process($tpl, 'sdr', 'SDRSettings.tpl');
     }
+
+    public static function hasConfigured()
+    {
+        return !!self::get('has_configured');
+    }
     
-    public function saveFromContext(CommandContext $context)
+    public static function saveFromContext(CommandContext $context)
     {
         self::setNoSave('email_test_flag', !is_null($context->get('email_test_flag')));
         self::setNoSave('exception_test_flag', !is_null($context->get('exception_test_flag')));
@@ -82,6 +87,7 @@ class SDRSettings
         self::setNoSave('base_uri', $context->get('base_uri'));
         self::setNoSave('auth_uri', $context->get('auth_uri'));
         self::setNoSave('administrator_agreement', $context->get('administrator_agreement'));
+        self::setNoSave('has_configured', 1);
         self::save();
     }
     

@@ -39,8 +39,18 @@ abstract class SDR
         $fac = CommandFactory::getInstance();
         $ctx = CommandContext::getInstance();
 
+        if(!SDRSettings::hasConfigured()) {
+            $cmd = $fac->get('AdminSettingsCommand');
+            $cmd->execute($this->context);
+            return;
+        }
+
         $uri = $this->context->getUri();
         if(preg_match('/index.php/', $uri)) {
+
+            var_dump(SDRSettings::hasConfigured());
+            exit();
+
             $cmd = $fac->get($ctx->coalesce('action', 'Default'));
             //NQ::simple('sdr', SDR_NOTIFICATION_WARNING, 'Old Command Mechanism' . (array_key_exists('HTTP_REFERER', $_SERVER) ? ', referrer is ' . $_SERVER['HTTP_REFERER'] : '') . ', for command ' . $cmd->getAction());
 
