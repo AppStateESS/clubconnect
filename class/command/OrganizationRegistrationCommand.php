@@ -89,7 +89,7 @@ class OrganizationRegistrationCommand extends CrudCommand
 
                 $emails = array(SDRSettings::getApplicationEmail());
                 foreach($offreq['officers'] as $officer) {
-                    if($officer['admin']) {
+                    if(in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) {
                         $emails[] = $officer['person_email'] . '@appstate.edu';
                     }
                 }

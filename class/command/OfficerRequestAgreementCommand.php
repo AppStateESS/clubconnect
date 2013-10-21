@@ -147,7 +147,7 @@ class OfficerRequestAgreementCommand extends CrudCommand
             $fulfilled = array();
             $pending = array();
             foreach($request['officers'] as $officer) {
-                if(!$officer['admin']) continue;
+                if(!in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) continue;
 
                 if(is_null($officer['fulfilled'])) {
                     $pending[] = $officer;

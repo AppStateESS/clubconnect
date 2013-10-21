@@ -10,6 +10,7 @@
 /admin/reports/{report}.{format}    ExecuteReportCommand
 /admin/settings                     AdminSettingsCommand
 /admin/lock                         GlobalLockCommand
+/admin/do-certify                   CertifyRegistrationsCommand
 /user/choose                        ChooseUserCommand
 /user                               ShowUserSummaryCommand
 /clubs                              ClubDirectoryCommand

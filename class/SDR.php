@@ -41,7 +41,9 @@ abstract class SDR
 
         if(!SDRSettings::hasConfigured()) {
             $cmd = $fac->get('AdminSettingsCommand');
+            NQ::simple('sdr', SDR_NOTITFICATION_WARNING, 'ClubConnect is unconfigured, and you will not be able to do anything else until you save these settings.');
             $cmd->execute($this->context);
+            $this->activeCommand = $fac->get('AdminSettingsCommand');
             return;
         }
 

@@ -78,8 +78,8 @@ try {
     PHPWS_Core::initModClass('sdr','SDRSettings.php');
     if(SDRSettings::getExceptionTestFlag()){
         // Test flag is set, so just re-throw the exception and let PHP handle it
-        throw $e;
-        return;
+        var_dump($e);
+        exit();
     }
    
     try {

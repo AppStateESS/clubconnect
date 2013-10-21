@@ -67,10 +67,9 @@ class RegistrationCertified
             $db->addWhere('sdr_member.username', $officer['person_email'], null, 'or', 'member');
             if($db->count() != 0) continue;  // Already a member
 
-            if($officer['role_id'] == 53 || $officer['role_id'] == 34) {
+            if(in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) {
                 $officer['admin'] = 1;
-            }
-            if($officer['admin']) {
+
                 $membership = $mgr->addMember(new Member($officer['member_id']), $reg['term'], 1, 1, false, $officer['role_id']);
                 $membership->setAdministrator(1);
                 $membership->save();
@@ -84,8 +83,15 @@ class RegistrationCertified
                     SDR::silentNotify(new Exception('person_email blank for officer request ' . json_encode($officer)));
                     continue;
                 }
-                $membership = $mgr->addMember($member, $reg['term'], 0, 1, false, $officer['role_id']);
-                $membership->save();
+                try {
+                    $membership = $mgr->addMember($member, $reg['term'], 0, 1, false, $officer['role_id']);
+                    if($officer['admin']) {
+                        $membership->setAdministrator(1);
+                    }
+                    $membership->save();
+                } catch(Exception $e) {
+                    // TODO: Log or something?  Do we care?
+                }
             }
         }
 
