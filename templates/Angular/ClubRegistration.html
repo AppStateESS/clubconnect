@@ -1,6 +1,6 @@
 <div data-ng-controller="ClubRegistrationCtrl">
 <form id="clubregistration" name="clubregistration">
-  <h1>Club Registration <small>2013-2014</small></h1>
+  <h1>Club Registgration <small>2013-2014</small></h1>
   <hr>
   <div data-ng-show="registration.state == 'Rejected'" class="alert alert-danger">
     <p>{{registration.oldstatecomment}}</p>
@@ -149,6 +149,7 @@
             <th>Email</th>
             <th>Advisor / Officer Position</th>
             <th>Administrator</th>
+            <th data-ng-show="user.permission.registration_admin">Certified</th>
           </tr>
           <tr data-ng-repeat="(key, officer) in officerRequest.officers">
             <ng-form name="officer">
@@ -176,6 +177,9 @@
               </td>
               <td data-ng-show="!officer.removed && (officer.role_id == 34 || officer.role_id == 53)">
                 <button type="button" class="btn btn-primary" disabled="disabled">Yes</button>
+              </td>
+              <td data-ng-show="user.permission.registration_admin" data-ng-class="fulfilledClass(officer)">
+                {{fulfilledText(officer)}}
               </td>
             </ng-form>
           </tr>
@@ -271,6 +275,21 @@
             </div>
           </div>
       
+        </div>
+      </div>
+    </div>
+    <div data-ng-show="registration.state == 'Approved' && user.permission.registration_admin && officersCertified()">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h4 class="panel-title">Certify Registration</h4>
+            </div>
+            <div class="panel-body">
+              <p>All of the appropriate officers have certified, but due to problems with registration this year, the club did not automatically get registered.  Click this button to finalize registration.</p>
+              <button class="btn btn-lg btn-success" data-ng-click="submit('Certified')"><i class="icon-check"></i> Certify Registration</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
