@@ -170,7 +170,7 @@ class OfficerRequestController extends PDOController
                 'member_id'          => $officer['member_id'],
                 'person_email'       => $officer['person_email'],
                 'role_id'            => $officer['role_id'],
-                'admin'              => $officer['admin'],
+                'admin'              => $officer['admin'] ? 1 : 0,
                 'fulfilled'          => $officer['fulfilled']
             ));
         }
