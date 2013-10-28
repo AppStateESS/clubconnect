@@ -163,7 +163,7 @@ class OfficerRequestController extends PDOController
 
             $mbr = new Member(null, $officer['person_email']);
             $id = $mbr->getId();
-            $officer['member_id'] = $id;
+            $officer['member_id'] = is_null($id) ? null : (int)$id;
 
             $this->safeExecute($member, array(
                 'officer_request_id' => $offreq['officer_request_id'],
