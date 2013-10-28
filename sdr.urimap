@@ -48,5 +48,4 @@
 /api/organization                   OrganizationSetCommand
 /api/user                           UserCommand
 /offreq/{offreq_id}                 OfficerRequestAgreementCommand
-/debug                              DebugCommand
 /angularize/{href}                  PrepareAngularViewCommand
