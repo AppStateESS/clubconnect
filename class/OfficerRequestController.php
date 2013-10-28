@@ -154,15 +154,17 @@ class OfficerRequestController extends PDOController
             )
         ");
 
-        if(!array_key_exists('member_id', $officer)) {
-            $officer['member_id'] = null;
-        }
-
-        if(!array_key_exists('person_email', $officer)) {
-            $officer['person_email'] = null;
-        }
-
         foreach($offreq['officers'] as $officer) {
+            if(!array_key_exists('person_email', $officer) || empty($officer['person_email'])) {
+                if(!array_key_exists('member_id', $officer) || empty($officer['member_id'])) {
+                    throw new Exception('Invalid state, request ' . $offreq['officer_request_id'] . 'has neither member_id nor person_email');
+                }
+            }
+
+            $mbr = new Member(null, $officer['person_email']);
+            $id = $mbr->getId();
+            $officer['member_id'] = $id;
+
             $this->safeExecute($member, array(
                 'officer_request_id' => $offreq['officer_request_id'],
                 'member_id'          => $officer['member_id'],

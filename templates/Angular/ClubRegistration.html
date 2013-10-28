@@ -25,19 +25,19 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="fullname">Full Name</label>
-      <input type="text" class="form-control" name="fullname" data-ng-model="registration.fullname" placeholder="Full Name of Organization" data-required="">
+      <input type="text" class="form-control" name="fullname" data-ng-model="registration.fullname" placeholder="Full Name of Organization" data-required>
       <p class="help-block" data-ng-show="clubregistration.fullname.$erroneous">This field is required.</p>
       <p class="help-block">No acronyms or abbreviations.</p>
     </div>
     <div class="form-group">
       <label class="control-label" for="shortname">Short Name</label>
-      <input type="text" class="form-control" name="shortname" data-ng-model="registration.shortname" placeholder="ABC" data-required="">
+      <input type="text" class="form-control" name="shortname" data-ng-model="registration.shortname" placeholder="ABC" data-required>
       <p class="help-block" data-ng-show="clubregistration.shortname.$erroneous">This field is required.</p>
       <p class="help-block">Many student organizations already have a well-known acronym or shortened form; please enter it or make one up.</p>
     </div>
     <div class="form-group">
       <label class="control-label" for="address">Address</label>
-      <input type="text" class="form-control" name="address" data-ng-model="registration.address" placeholder="ASU PO Box or Advisor's Office Address" data-required="">
+      <input type="text" class="form-control" name="address" data-ng-model="registration.address" placeholder="ASU PO Box or Advisor's Office Address" data-required>
       <p class="help-block" data-ng-show="clubregistration.address.$erroneous">This field is required.</p>
       <p class="help-block">Do not use your personal ASU BOX.</p>
     </div>
@@ -56,11 +56,11 @@
     <h2>Public Profile</h2>
     <div class="form-group">
       <label class="control-label" for="purpose">Purpose</label>
-      <input type="text" class="form-control" name="purpose" data-ng-model="registration.purpose" placeholder="Copy directly from your organization's constitution." data-required="">
+      <input type="text" class="form-control" name="purpose" data-ng-model="registration.purpose" placeholder="Copy directly from your organization's constitution." data-required>
     </div>
     <div class="form-group">
       <label class="control-label" for="description">Description</label>
-      <textarea class="form-control" name="description" data-ng-model="registration.description" rows="20" data-ckeditor=""></textarea>
+      <textarea class="form-control" name="description" data-ng-model="registration.description" rows="20" data-ckeditor></textarea>
     </div>
     <div class="form-group">
       <label class="control-label" for="requirements">Requirements</label>
@@ -69,12 +69,12 @@
     </div>
     <div class="form-group">
       <label class="control-label" for="meetings">Meetings</label>
-      <input type="text" class="form-control" name="meetings" data-ng-model="registration.meetings" placeholder="Second Thursday of Every Month at 7pm" data-required="">
+      <input type="text" class="form-control" name="meetings" data-ng-model="registration.meetings" placeholder="Second Thursday of Every Month at 7pm" data-required>
       <p class="help-block">If your meeting schedule is more complicated than will fit in this area, specify how your meeting schedule can be found; a website URL, a social media page, a public posting place, etc.  All organizations must have publicly listed meeting times.</p>
     </div>
     <div class="form-group">
       <label class="control-label" for="location">Location</label>
-      <input type="text" class="form-control" name="location" data-ng-model="registration.location" placeholder="John Thomas Hall, room 387" data-required="">
+      <input type="text" class="form-control" name="location" data-ng-model="registration.location" placeholder="John Thomas Hall, room 387" data-required>
       <p class="help-block">If your meeting location is more complicated than will fit in this area, specify how your meeting location can be found; a website URL, a social media page, a public posting place, etc.  All organizations must have publicly listed meeting locations.</p>
     </div>
     <div class="form-group">
@@ -94,7 +94,7 @@
           </div>
           <div class="panel-body">
             <p class="help-block">Select the <em>one</em> category that best fits your organization for SGA Election purposes.</p>
-            <div data-tag-select="" data-radio="true" data-tags="sdrdata.electionTags" data-ng-model="registration.sgaelection"></div>
+            <div data-tag-select data-radio="true" data-tags="sdrdata.electionTags" data-ng-model="registration.sgaelection"></div>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@
           </div>
           <div class="panel-body">
             <p class="help-block">Select <em>one or more</em> categories that describe your organization.</p>
-            <div data-tag-select="" data-tags="sdrdata.searchTags" data-cols="3" data-ng-model="registration.searchtags"></div>
+            <div data-tag-select data-tags="sdrdata.searchTags" data-cols="3" data-ng-model="registration.searchtags"></div>
           </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
       </div>
       <div class="panel-body">
         <p class="help-block">Select <em>one or more</em> months in which your organization holds officer elections.</p>
-        <div data-tag-select="" data-tags="sdrdata.monthTags" data-cols="3" data-ng-model="registration.elections"></div>
+        <div data-tag-select data-tags="sdrdata.monthTags" data-cols="3" data-ng-model="registration.elections"></div>
       </div>
     </div>
 
@@ -161,13 +161,13 @@
               <td>
                 <div class="form-group">
                   <div class="input-group">
-                    <input type="text" class="form-control" name="officerEmail" data-ng-model="officer.person_email" placeholder="Only the part before the @ sign" required="">
+                    <input type="text" class="form-control" name="officerEmail" data-ng-model="officer.person_email" placeholder="Only the part before the @ sign" required>
                     <span class="input-group-addon">@appstate.edu</span>
                   </div>
                 </div>
               </td>
               <td data-ng-hide="officer.removed">
-                <select class="form-control" name="officerEmail" data-ng-model="officer.role_id" data-ng-options="role.id as role.title for role in sdrdata.roles" placeholder="Officer Position" required=""></select>
+                <select class="form-control" name="officerEmail" data-ng-model="officer.role_id" data-ng-options="role.id as role.title for role in sdrdata.roles" placeholder="Officer Position" required></select>
               </td>
               <td data-ng-hide="officer.removed || officer.role_id == 34 || officer.role_id == 53">
                 <div class="btn-group">
@@ -288,6 +288,17 @@
             <div class="panel-body">
               <p>All of the appropriate officers have certified, but due to problems with registration this year, the club did not automatically get registered.  Click this button to finalize registration.</p>
               <button class="btn btn-lg btn-success" data-ng-click="submit('Certified')"><i class="icon-check"></i> Certify Registration</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">Save Changes</h4>
+            </div>
+            <div class="panel-body">
+              <p>Save changes WITHOUT CERTIFYING.  NOTE: No emails will be sent, so if you change an email address above, you will need to contact them manually.</p>
+              <button class="btn btn-lg btn-primary" data-ng-click="submit('Approved')"><i class="icon-save"></i> Save Changes</button>
             </div>
           </div>
         </div>
