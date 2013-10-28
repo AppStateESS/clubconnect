@@ -50,9 +50,6 @@ abstract class SDR
         $uri = $this->context->getUri();
         if(preg_match('/index.php/', $uri)) {
 
-            var_dump(SDRSettings::hasConfigured());
-            exit();
-
             $cmd = $fac->get($ctx->coalesce('action', 'Default'));
             //NQ::simple('sdr', SDR_NOTIFICATION_WARNING, 'Old Command Mechanism' . (array_key_exists('HTTP_REFERER', $_SERVER) ? ', referrer is ' . $_SERVER['HTTP_REFERER'] : '') . ', for command ' . $cmd->getAction());
 
