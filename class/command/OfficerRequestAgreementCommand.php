@@ -142,12 +142,16 @@ class OfficerRequestAgreementCommand extends CrudCommand
             // Mark Approved
             $this->ctrl->fulfill($this->offreq_id, UserStatus::getUsername());
 
+            PHPWS_Core::initModClass('sdr', 'RoleController.php');
+            $rc = new RoleController();
+            $certRoles = $rc->getRequiredForCertification()
+
             // See if all admin requests have been fulfilled
             list($request) = $this->ctrl->get($this->offreq_id);
             $fulfilled = array();
             $pending = array();
             foreach($request['officers'] as $officer) {
-                if(!in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) continue;
+                if(!in_array($officer['role_id'], $certRoles)) continue;
 
                 if(is_null($officer['fulfilled'])) {
                     $pending[] = $officer;

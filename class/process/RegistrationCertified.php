@@ -60,6 +60,10 @@ class RegistrationCertified
         $adminMembers = array();
         $regularMembers = array();
 
+        PHPWS_Core::initModClass('sdr', 'RoleController.php');
+        $rc = new RoleController();
+        $certRoles = $rc->getRequiredForCertification();
+
         $emails = array(SDRSettings::getApplicationEmail());
         foreach($req['officers'] as $officer) {
             $db = new PHPWS_DB('sdr_membership');
@@ -70,7 +74,7 @@ class RegistrationCertified
             $db->addWhere('sdr_member.username', $officer['person_email'], null, 'or', 'member');
             if($db->count() != 0) continue;  // Already a member
 
-            if(in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) {
+            if(in_array($officer['role_id'], $certRoles)) {
                 $officer['admin'] = 1;
 
                 $membership = $mgr->addMember(new Member($officer['member_id']), $reg['term'], 1, 1, false, $officer['role_id']);

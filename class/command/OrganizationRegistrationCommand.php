@@ -67,6 +67,10 @@ class OrganizationRegistrationCommand extends CrudCommand
         $pdo = PDOFactory::getInstance();
         $pdo->beginTransaction();
 
+        PHPWS_Core::initModClass('sdr', 'RoleController.php');
+        $rc = new RoleController();
+        $certRoles = $rc->getRequiredForCertification();
+
         $reg = $context->getJsonData();
 
         $reg['committed_by'] = UserStatus::getUsername();
@@ -89,7 +93,7 @@ class OrganizationRegistrationCommand extends CrudCommand
 
                 $emails = array(SDRSettings::getApplicationEmail());
                 foreach($offreq['officers'] as $officer) {
-                    if(in_array($officer['role_id'], array(53,4,6,52,15,18,20,21,34,44))) {
+                    if(in_array($officer['role_id'], $certRoles)) {
                         $emails[] = $officer['person_email'] . '@appstate.edu';
                     }
                 }

@@ -1,6 +1,7 @@
 <?php
 
 PHPWS_Core::initModClass('sdr', 'CrudCommand.php');
+PHPWS_Core::initModClass('sdr', 'RoleController.php');
 
 /**
  * Description
@@ -10,15 +11,9 @@ PHPWS_Core::initModClass('sdr', 'CrudCommand.php');
 abstract class AngularViewCommand extends CrudCommand
 {
     public final function get(CommandContext $context)
-    {       
-        $pdo = PDOFactory::getInstance();
-
-        $stmt = $pdo->prepare('SELECT id, title, rank FROM sdr_role WHERE hidden = 0 ORDER BY title');
-        if(!$stmt->execute()) {
-            throw new DatabaseException($stmt->errorInfo());
-        }
-
-        $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    {
+        $rc = new RoleController();
+        $roles = $rc->getAll();
 
         $http = array_key_exists('HTTPS', $_SERVER) && $_SERVER['HTTPS'] ? 'https:' : 'http:';
 
