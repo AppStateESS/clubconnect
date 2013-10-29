@@ -167,7 +167,7 @@
                 </div>
               </td>
               <td data-ng-hide="officer.removed">
-                <select class="form-control" name="officerEmail" data-ng-model="officer.role_id" data-ng-options="role.id as role.title for role in sdrdata.roles" placeholder="Officer Position" required></select>
+                <select class="form-control" name="officerEmail" data-ng-model="officer.role_id" data-ng-options="role.id as role.title for role in sdrdata.roles | filter:selectRoles" placeholder="Officer Position" required></select>
               </td>
               <td data-ng-hide="officer.removed || officer.role_id == 34 || officer.role_id == 53">
                 <div class="btn-group">
