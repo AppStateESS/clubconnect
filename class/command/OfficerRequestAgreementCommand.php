@@ -144,7 +144,7 @@ class OfficerRequestAgreementCommand extends CrudCommand
 
             PHPWS_Core::initModClass('sdr', 'RoleController.php');
             $rc = new RoleController();
-            $certRoles = $rc->getRequiredForCertification()
+            $certRoles = $rc->getRequiredForCertification();
 
             // See if all admin requests have been fulfilled
             list($request) = $this->ctrl->get($this->offreq_id);
