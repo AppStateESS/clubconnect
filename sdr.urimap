@@ -37,7 +37,6 @@
 /newreg                             ClubRegistrationFormCommand
 /api/regclubs                       RegistrationSearchClubsCommand
 /api/oldreg                         RegistrationLoadDataCommand
-/api/getroles                       RegistrationGetRolesCommand
 /api/people                         PeopleSearchCommand
 /api/registrations                  ClubRegistrationsCommand
 /api/registration/{registration_id} OrganizationRegistrationCommand

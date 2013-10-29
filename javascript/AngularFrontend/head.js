@@ -17,6 +17,9 @@
   .config(function(userApiProvider) {
       userApiProvider.setUri({USER});
   })
+  .config(function(rolesProvider) {
+      rolesProvider.setRoles({ROLES});
+  })
 
   .factory('sdrConfig', function() {
       return {
@@ -29,9 +32,6 @@
               } else {
                   return {CLUBSEARCH} + '?callback=JSON_CALLBACK&search=' + search;
               }
-          },
-          makeRolesUrl: function() {
-              return {GETROLES} + '?callback=JSON_CALLBACK';
           },
           makePersonSearchUrl: function(search) {
               return {PERSONSEARCH} + '?callback=JSON_CALLBACK&search=' + search;
