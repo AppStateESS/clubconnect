@@ -47,6 +47,9 @@ class RegistrationCertified
 
         $db = new PHPWS_DB('sdr_organization_profile');
         $result = $db->saveObject($profile);
+        if(PHPWS_Error::logIfError($result)) {
+            throw new DatabaseException($result->toString());
+        }
 
         // Administrative Officers get auto-membership
         $orctrl = new OfficerRequestController();

@@ -59,4 +59,22 @@ BEGIN;
         10
     );
 
+    CREATE OR REPLACE VIEW sdr_organization_registration_view_short AS
+    SELECT
+        registration_id,
+        term,
+        organization_id,
+        officer_request_id,
+        updated,
+        updated_by,
+        state_updated,
+        state_updated_by,
+        state,
+        statecomment,
+        fullname,
+        shortname,
+        searchtags,
+        elections
+    FROM sdr_organization_registration_view_current;
+
 COMMIT;
