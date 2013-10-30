@@ -27,7 +27,7 @@ class ExecuteRolloverCommand extends Command {
         $r = new Rollover();
         $r->execute();
 
-        SDR::quit();
+        \sdr\Environment::getInstance()->cleanExit();
     }
 }
 

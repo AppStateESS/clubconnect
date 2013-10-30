@@ -22,12 +22,9 @@ class RegistrationSearchClubsCommand extends CrudCommand
         $stmt = $pdo->prepare("SELECT id, banner_id, name AS fullname, address, bank, ein, term, student_managed FROM sdr_organization_recent$restrict");
 
         if(!$stmt->execute()) {
-            PHPWS_Core::initModClass('sdr', 'JsonError.php');
-            $error = new JsonError('500 Internal Server Error');
-            $error->setMessage('An error occurred on the server. This error has been reported. Please try again later.');
-            $error->setPersistent($stmt->errorInfo());
-            $context->setContent($error->save());
-            return;
+            $e = new SdrPdoException('An error occurred on the server. Please try again later.');
+            $e->setErrorInfo($stmt->errorInfo());
+            throw $e;
         }
 
         $clubs = array();

@@ -183,7 +183,7 @@ class UserStatus
         NQ::close();
         header('HTTP/1.1 307 Temporary Redirect');
         header('Location: '. $auth);
-        SDR::quit();
+        \sdr\Environment::getInstance()->cleanExit();
     }
     
     public static function getBigLogin($message = NULL)

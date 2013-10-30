@@ -123,7 +123,8 @@ class Student {
     public function setGender($gender)
     {
     	if(!in_array($gender, array_keys(self::GENDER_VALUES()))) {
-            SDR::silentNotify(new InvalidArgumentException("$gender is not an allowed value for Gender."));
+            \sdr\Environment::getInstance()->silentException(
+                new InvalidArgumentException("$gender is not an allowed value for Gender."));
         }
         
         $this->gender = $gender;
@@ -137,7 +138,8 @@ class Student {
     public function setEthnicity($ethnicity)
     {
         if(!in_array($ethnicity, array_keys(self::ETHNICITY_VALUES()))) {
-            SDR::silentNotify(new InvalidArgumentException("$ethnicity is not an allowed value for Ethnicity."));
+            \sdr\Environment::getInstance()->silentException(
+                new InvalidArgumentException("$ethnicity is not an allowed value for Ethnicity."));
         }
     	$this->ethnicity = $ethnicity;
     }
@@ -161,7 +163,8 @@ class Student {
     public function setCitizen($citizen)
     {
         if(!in_array($citizen, array_keys(self::CITIZEN_VALUES()))) {
-            SDR::silentNotify(new InvalidArgumentException("$citizen is not an allowed value for Citizen."));
+            \sdr\Environment::getInstance()->silentException(
+                new InvalidArgumentException("$citizen is not an allowed value for Citizen."));
         }
     	$this->citizen = $citizen;
     }

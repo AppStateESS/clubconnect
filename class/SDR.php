@@ -71,50 +71,6 @@ abstract class SDR
         $cmd->log();
     }
 
-    public static function silentNotify(Exception $e)
-    {
-        $message = "The following was an exception that was not reported to the\nuser, and should not have caused any serious issues.\nLikely is an indication of Banner garbage.\n\n" . self::formatException($e);
-        self::emailError($message, 'Silent Uncaught Exception');
-    }
-
-    public static function formatException(Exception $e)
-    {
-        ob_start();
-        echo "Ohes Noes!  SDR threw an exception that was not caught!\n\n";
-        echo "Here is CurrentUser:\n\n";
-        print_r(Current_User::getUserObj());
-        echo "\n\nHere is the exception:\n\n";
-        print_r($e);
-        if(isset($this)) {
-            echo "\n\nHere is the CommandContext:\n\n";
-            print_r($this->context);
-        } else {
-            echo "\n\nNo CommandContext to report on.";
-        }
-        echo "\n\nHere is $_REQUEST:\n\n";
-        print_r($_REQUEST);
-        $message = ob_get_contents();
-        ob_end_clean();
-
-        return $message;
-    }
-
-    public static function emailError($message, $subject)
-    {
-        PHPWS_Core::initModClass('sdr', 'EmailMessage.php');
-        $to = SDRSettings::getUberAdminEmail();
-
-        if(is_null($to) || empty($to)) {
-            throw new Exception('No Uber Admin Email was set.  Please check SDR Global Settings.');
-        }
-        $email = new EmailMessage($to, 'sdr_system', $to, NULL, NULL, NULL, $subject, 'email/admin/UncaughtException.tpl');
-
-        $email_tags = array('MESSAGE' => $message);
-
-        $email->setTags($email_tags);
-        $email->send();
-    }
-
     protected function saveState()
     {
         if(isset($_SESSION['SDR_No_Push_Context'])) {
@@ -122,12 +78,6 @@ abstract class SDR
         } else {
             $this->context->pushContext($this->activeCommand);
         }
-    }
-
-    public static function quit()
-    {
-        NQ::close();
-        exit();
     }
 
     public static function throwDb($result)

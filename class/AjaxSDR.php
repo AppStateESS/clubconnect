@@ -22,15 +22,14 @@ class AjaxSDR extends SDR
         } catch(PermissionException $pe) {
             $error = new JsonError('401 Unauthorized');
             $error->setMessage('You are not authorized to perform this action.  You may need to sign back in.');
-            $error->setPersistent($pe);
-            $content = json_encode($error->save());
-        } catch(SdrPdoException $spe) {
+            $content = json_encode($error);
+        } catch(HttpException $e) {
             $error = new JsonError('500 Internal Server Error');
             $error->setMessage($spe->getMessage());
-            $error->setPersistent(array($spe, $spe->getErrorInfo(), $spe->getTrace()));
-            $content = json_encode($error->save());
-        } catch(HttpException $e) {
-            $content = json_encode($e);
+
+            $error->setExceptionId(
+                \sdr\Environment::getInstance()->handleException($spe));
+            $content = json_encode();
         }
 
         $callback = $this->context->get('callback');
@@ -43,7 +42,7 @@ class AjaxSDR extends SDR
 
         echo $response;
 
-        SDR::quit();
+        \sdr\Environment::getInstance()->cleanExit();
     }
 }
 

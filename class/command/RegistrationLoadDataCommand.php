@@ -51,12 +51,9 @@ class RegistrationLoadDataCommand extends CrudCommand
         ");
 
         if(!$stmt->execute(array('name' => "%$search%"))) {
-            PHPWS_Core::initModClass('sdr', 'JsonError.php');
-            $error = new JsonError('500 Internal Server Error');
-            $error->setMessage('An error occurred on the server. This error has been reported. Please try again later.');
-            $error->setPersistent($stmt->errorInfo());
-            $context->setContent($error->save());
-            return;
+            $e = new SdrPdoException('An error occurred on the server. Please try again later.');
+            $e->setErrorInfo($stmt->errorInfo());
+            throw $e;
         }
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -96,12 +93,9 @@ class RegistrationLoadDataCommand extends CrudCommand
         ");
 
         if(!$stmt->execute(array('id' => $response['id']))) {
-            PHPWS_Core::initModClass('sdr', 'JsonError.php');
-            $error = new JsonError('500 Internal Server Error');
-            $error->setMessage('An error occurred on the server. This error has been reported. Please try again later.');
-            $error->setPersistent($stmt->errorInfo());
-            $context->setContent($error->save());
-            return;
+            $e = new SdrPdoException('An error occurred on the server. Please try again later.');
+            $e->setErrorInfo($stmt->errorInfo());
+            throw $e;
         }
 
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

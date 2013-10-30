@@ -4,9 +4,7 @@ namespace sdr;
 
 class NamespaceUtils
 {
-    private function __construct() { }
-    
-    public static function namespaceToPath($namespace)
+    public function namespaceToPath($namespace)
     {
         // Remove leading slash if any
         if(substr($namespace, 0, 1) == '\\') $namespace = substr($namespace, 1);
@@ -15,19 +13,19 @@ class NamespaceUtils
         return preg_replace("|\\\\|", '/', substr($namespace, 4));
     }
     
-    public static function pathToNamespace($path)
+    public function pathToNamespace($path)
     {
         // Add sdr\ and turn / into \
         return 'sdr\\' . preg_replace("|/|", '\\', $path);
     }
     
-    public static function getClassPath()
+    public function getClassPath()
     {
         // Not really a namespace thing...
         return PHPWS_SOURCE_DIR . 'mod/sdr/class/';
     }
     
-    public static function getAllInNamespace($namespace)
+    public function getAllInNamespace($namespace)
     {
         // Build fully qualified path
         $dir = self::getClassPath() . self::namespaceToPath($namespace);

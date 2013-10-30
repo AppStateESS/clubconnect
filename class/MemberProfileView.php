@@ -131,7 +131,8 @@ class MemberProfileView extends sdr\View
     public static function translateByTable($banner, $table)
     {    	
     	if(!isset($table[$banner])) {
-            SDR::silentNotify(new InvalidArgumentException("$banner is not an acceptable value."));
+            \sdr\Environment::getInstance()->silentException(
+                new InvalidArgumentException("$banner is not an acceptable value."));
             return $banner;
     	}
     	

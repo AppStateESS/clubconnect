@@ -51,6 +51,9 @@ class SDRSettings
             $form->addText('auth_uri', self::getAuthURI());
             $form->setLabel('auth_uri', "Authentication URI");
 
+            $form->addTextarea('exception_message', self::getExceptionMessage());
+            $form->setLabel('exception_message', 'Message Shown On Uncaught Exception.  [EXCEPTION_ID] will be replaced by the Exception ID.');
+
             $form->addTextarea('administrator_agreement', self::getAdministratorAgreement());
             $form->setLabel('administrator_agreement', "Club Administrator Agreement");
             
@@ -86,6 +89,7 @@ class SDRSettings
         self::setNoSave('global_lock_message', $context->get('global_lock_message'));
         self::setNoSave('base_uri', $context->get('base_uri'));
         self::setNoSave('auth_uri', $context->get('auth_uri'));
+        self::setNoSave('exception_message', $context->get('exception_message'));
         self::setNoSave('administrator_agreement', $context->get('administrator_agreement'));
         self::setNoSave('has_configured', 1);
         self::save();
@@ -234,6 +238,16 @@ class SDRSettings
     public static function getAuthURI()
     {
         return self::get('auth_uri');
+    }
+
+    public static function setExceptionMessage($message)
+    {
+        self::set('exception_message', $message);
+    }
+
+    public static function getExceptionMessage()
+    {
+        return self::get('exception_message');
     }
 
     public static function setAdministratorAgreement($agreement)

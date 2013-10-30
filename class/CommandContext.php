@@ -221,7 +221,7 @@ class CommandContext {
 
         header('HTTP/1.1 303 See Other');
         header("Location: $uri");
-        SDR::quit();
+        \sdr\Environment::getInstance()->cleanExit();
     }
 }
 

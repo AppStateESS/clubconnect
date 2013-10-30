@@ -74,22 +74,33 @@ class RegistrationCertified
             $db->addWhere('sdr_member.username', $officer['person_email'], null, 'or', 'member');
             if($db->count() != 0) continue;  // Already a member
 
+            if($officer['member_id']) {
+                $member = new Member($officer['member_id']);
+            } else if($officer['person_email']) {
+                $member = new Member(null, $officer['person_email']);
+            }
+
+            if(!isset($member) || is_null($member->getId())) {
+                $exception = new Exception('person_email blank for officer request ' . json_encode($officer));
+                if($officer['admin']) {
+                    // Admins MUST be created
+                    throw $exception;
+                } else {
+                    // Non-Admins can be skipped
+                    \sdr\Environment::getInstance()->silentException(
+                        new Exception('person_email blank for officer request ' . json_encode($officer)));
+                    continue;
+                }
+            }
+
             if(in_array($officer['role_id'], $certRoles)) {
                 $officer['admin'] = 1;
 
-                $membership = $mgr->addMember(new Member($officer['member_id']), $reg['term'], 1, 1, false, $officer['role_id']);
+                $membership = $mgr->addMember($member, $reg['term'], 1, 1, false, $officer['role_id']);
                 $membership->setAdministrator(1);
                 $membership->save();
                 $emails[] = $officer['person_email'] . '@appstate.edu';
             } else {
-                if($officer['member_id']) {
-                    $member = new Member($officer['member_id']);
-                } else if($officer['person_email']) {
-                    $member = new Member(null, $officer['person_email']);
-                } else {
-                    SDR::silentNotify(new Exception('person_email blank for officer request ' . json_encode($officer)));
-                    continue;
-                }
                 try {
                     $membership = $mgr->addMember($member, $reg['term'], 0, 1, false, $officer['role_id']);
                     if($officer['admin']) {
