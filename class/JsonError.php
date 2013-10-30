@@ -32,6 +32,20 @@ class JsonError
     {
         $this->exceptionId = $exceptionId;
     }
+
+    public function encode()
+    {
+        return json_encode(array(
+            'status'      => $this->status,
+            'message'     => $this->message,
+            'exceptionId' => $this->exceptionId
+        ));
+    }
+
+    public function renderStatus()
+    {
+        header($this->status);
+    }
 }
 
 ?>

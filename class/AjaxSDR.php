@@ -22,14 +22,16 @@ class AjaxSDR extends SDR
         } catch(PermissionException $pe) {
             $error = new JsonError('401 Unauthorized');
             $error->setMessage('You are not authorized to perform this action.  You may need to sign back in.');
-            $content = json_encode($error);
-        } catch(HttpException $e) {
+            $error->renderStatus();
+            $content = $error->encode();
+        } catch(Exception $e) {
             $error = new JsonError('500 Internal Server Error');
-            $error->setMessage($spe->getMessage());
+            $error->setMessage($e->getMessage());
 
             $error->setExceptionId(
-                \sdr\Environment::getInstance()->handleException($spe));
-            $content = json_encode();
+                \sdr\Environment::getInstance()->handleException($e, 'Uncaught Exception from REST API'));
+            $error->renderStatus();
+            $content = $error->encode();
         }
 
         $callback = $this->context->get('callback');

@@ -51,19 +51,33 @@ class RegistrationCertified
             throw new DatabaseException($result->toString());
         }
 
-        // Administrative Officers get auto-membership
         $orctrl = new OfficerRequestController();
         list($req) = $orctrl->get($reg['officer_request_id']);
+
+        PHPWS_Core::initModClass('sdr', 'RoleController.php');
+        $rc = new RoleController();
+        $certRoles = $rc->getRequiredForCertification();
+
+        // Sanity Check - exception if anyone required has not yet finished 
+        // their officer request
+        foreach($req['officers'] as $officer) {
+            if(!in_array($officer['role_id'], $certRoles)) continue;
+
+            if(is_null($officer['fulfilled'])) {
+                $id = $officer['member_id'];
+                if(is_null($id) || empty($id)) {
+                    $id = $officer['person_email'];
+                }
+                throw new Exception("Attempted to Certify {$reg['registration_id']} but Officer Request Member $id is unfulfilled.");
+            }
+        }
 
         $mgr = new OrganizationManager($reg['organization_id']);
 
         $adminMembers = array();
         $regularMembers = array();
 
-        PHPWS_Core::initModClass('sdr', 'RoleController.php');
-        $rc = new RoleController();
-        $certRoles = $rc->getRequiredForCertification();
-
+        // Administrative Officers get auto-membership
         $emails = array(SDRSettings::getApplicationEmail());
         foreach($req['officers'] as $officer) {
             $db = new PHPWS_DB('sdr_membership');

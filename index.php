@@ -12,7 +12,7 @@ try {
     javascript('jquery');
     $controller->process();
 } catch(Exception $e) {
-    $env->handleException($e);
+    $env->handleException($e, 'Uncaught Exception from direct PHP');
     $env->errorBack();
 }
 
