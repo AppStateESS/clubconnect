@@ -96,11 +96,11 @@ class RegistrationCertified
 
             if(!isset($member) || is_null($member->getId())) {
                 $exception = new Exception('person_email blank for officer request ' . json_encode($officer));
-                if((int)$officer['admin']) {
-                    // Admins MUST be created
+                if(in_array($officer['role_id'], $certRoles)) {
+                    // Magic roles MUST be created
                     throw $exception;
                 } else {
-                    // Non-Admins can be skipped
+                    // everyone else can be skipped
                     \sdr\Environment::getInstance()->silentException(
                         new Exception('person_email blank for officer request ' . json_encode($officer)));
                     continue;
