@@ -96,7 +96,7 @@ class RegistrationCertified
 
             if(!isset($member) || is_null($member->getId())) {
                 $exception = new Exception('person_email blank for officer request ' . json_encode($officer));
-                if($officer['admin']) {
+                if((int)$officer['admin']) {
                     // Admins MUST be created
                     throw $exception;
                 } else {
