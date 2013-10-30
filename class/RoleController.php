@@ -38,7 +38,9 @@ class RoleController extends PDOController
 
             $ret = array();
             foreach($all as $role) {
-                $ret[] = $role['id'];
+                if($role['rank'] > 2) {
+                    $ret[] = $role['id'];
+                }
             }
             
             $this->cert = $ret;
