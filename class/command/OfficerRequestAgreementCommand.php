@@ -62,16 +62,20 @@ class OfficerRequestAgreementCommand extends CrudCommand
         $reg = $rctrl->get(null, null, null, $offreq['officer_request_id']);
         $reg = $reg[0];
 
-        $agreements = array(
-            array('CONTENT' => SDRSettings::getAdministratorAgreement())
-        );
-        PHPWS_Core::initModClass('sdr', 'Organization.php');
-        $org = new Organization($offreq['organization_id']);
-        $agreement = $org->getAgreement();
-        if($agreement) {
-            $agreements[] = array('CONTENT' => $agreement);
+        if($offdata['role_id'] == 53) {
+            $agreements = array();
+        } else {
+            $agreements = array(
+                array('CONTENT' => SDRSettings::getAdministratorAgreement())
+            );
+            PHPWS_Core::initModClass('sdr', 'Organization.php');
+            $org = new Organization($offreq['organization_id']);
+            $agreement = $org->getAgreement();
+            if($agreement) {
+                $agreements[] = array('CONTENT' => $agreement);
+            }
         }
-        
+            
         $vars = array(
             'FULLNAME'   => $reg['fullname'],
             'TERM'       => Term::getPrintableCurrentTerm(),
