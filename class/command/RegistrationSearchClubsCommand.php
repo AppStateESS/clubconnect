@@ -16,12 +16,18 @@ class RegistrationSearchClubsCommand extends CrudCommand
 
         $restrict = '';
         if(!UserStatus::isAdmin()) {
-            $restrict = ' WHERE term IN (201240, 201310, 201340)';
+            $restrict = ' WHERE o.term IN (201240, 201310, 201340)';
         }
         
-        $stmt = $pdo->prepare("SELECT id, banner_id, name AS fullname, address, bank, ein, term, student_managed FROM sdr_organization_recent$restrict");
+        $stmt = $pdo->prepare("
+            SELECT o.id, o.banner_id, o.name AS fullname, o.address, o.bank, o.ein, o.term, o.student_managed, r.state
+            FROM sdr_organization_recent AS o
+            LEFT OUTER JOIN sdr_organization_registration_view_short AS r
+                ON o.id = r.organization_id AND r.term IN (201340, 201410)
+            $restrict");
 
         if(!$stmt->execute()) {
+            PHPWS_Core::initModClass('sdr', 'exception/SdrPdoException.php');
             $e = new SdrPdoException('An error occurred on the server. Please try again later.');
             $e->setErrorInfo($stmt->errorInfo());
             throw $e;
