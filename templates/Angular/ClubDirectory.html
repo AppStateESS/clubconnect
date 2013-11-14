@@ -24,7 +24,8 @@
         <td>
           <a href="{{club.url.default}}">{{club.fullname}}</a>
           <div class="pull-right">
-            <span class="label label-warning" data-ng-show="club.term != 201340">Not yet registered</span>
+            <span class="label label-danger" data-ng-show="club.term != 201340 && club.state != 'Submitted' && club.state != 'Approved'">Not yet registered</span>
+            <span class="label label-warning" data-ng-show="club.term != 201340 && (club.state == 'Submitted' || club.state == 'Approved')">Processing Registration</span>
             <span class="label label-info" data-ng-show="club.term != 201340 && user.status == 'admin'">{{club.term}}</span>
         </div></td>
       </tr>
