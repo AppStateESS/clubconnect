@@ -10,4 +10,4 @@ Dear club administrator,
 <!-- END extra_message -->
 To respond to this request, simply reply to this email.
 [[BLANK]]
-To view and manage your club memberships and other involvements, visit ClubConnect at: http://clubconnect.appsate.edu/
+To view and manage your club memberships and other involvements, visit ClubConnect at: http://clubconnect.appstate.edu/
