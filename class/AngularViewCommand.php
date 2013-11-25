@@ -10,7 +10,7 @@ PHPWS_Core::initModClass('sdr', 'RoleController.php');
 
 abstract class AngularViewCommand extends CrudCommand
 {
-    public final function get(CommandContext $context)
+    public function get(CommandContext $context)
     {
         $rc = new RoleController();
         $roles = $rc->getAll();

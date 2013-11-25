@@ -44,7 +44,7 @@ class Member
 			return;
 		}
 		
-		if(isset($id)) {
+		if($id) {
 			$this->initById($id);
 		} else {
 			$this->initByUsername($username);

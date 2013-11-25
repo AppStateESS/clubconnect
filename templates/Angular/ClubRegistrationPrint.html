@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  setTimeout(function() { window.print(); }, 1500);
+</script>
+<div data-ng-controller="ClubRegistrationCtrl">
+<h1>{{registration.fullname}} <small>({{registration.shortname}})</small></h1>
+<div class="row">
+  <div class="col-sm-6 col-md-6 col-lg-6">
+    <h3>Registration</h3>
+    <dl class="dl-horizontal">
+      <dt>Status</dt>
+      <dd>{{registration.state}} <span class="text-muted">as of</span> {{fromPgDate(registration.state_updated)}}</dd>
+      <dt>Address</dt>
+      <dd>{{registration.address}}</dd>
+      <dt>Bank</dt>
+      <dd>{{registration.bank}}<span class="text-muted" ng-hide="registration.bank">n/a</span></dd>
+      <dt>EIN</dt>
+      <dd>{{registration.ein}}<span class="text-muted" ng-hide="registration.ein">n/a</span></dd>
+      <dt>SGA Election Category</dt>
+      <dd>{{electionTag(registration.sgaelection)}}</dd>
+    </dl>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <h3>Search Tags</h3>
+        <ul>
+          <li ng-repeat="tag in registration.searchtags">{{tag}}</li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <h3>Election Months</h3>
+        <ul>
+          <li ng-repeat="month in registration.elections">{{month}}</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Officers/Advisor</h3>
+    <dl class="dl-horizontal">
+      <dt data-ng-repeat-start="officer in officerRequest.officers">
+        {{resolveRole(officer.role_id)}}
+      </dt>
+      <dd data-ng-repeat-end>
+        <span data-ng-show="officer.have_record">
+          {{officer.first_name}}
+          {{officer.last_name}}
+          ({{fulfilledText(officer)}})<br />
+          <i class="icon-phone"></i> {{officer.phone}}<br />
+          <i class="icon-envelope"></i> {{officer.email}}
+        </span>
+        <span data-ng-hide="officer.have_record">
+          No ClubConnect Record for {{officer.person_email}}
+        </span>
+      </dd>
+    </dl>
+  </div>
+  <div class="col-sm-6 col-md-6 col-lg-6">
+    <h3>Profile</h3>
+    <dl>
+      <dt>Purpose</dt>
+      <dd>{{registration.purpose}}<span class="text-muted" ng-hide="registration.purpose">n/a</span></dd>
+      <dt>Description</dt>
+      <dd><span data-ng-bind-html="htmlDescription"></span><span class="text-muted" ng-hide="registration.description">n/a</span></dd>
+      <dt>Requirements</dt>
+      <dd>{{registration.requirements}}<span class="text-muted" ng-hide="registration.requirements">n/a</span></dd>
+      <dt>Meeting Time</dt>
+      <dd>{{registration.meetings}}<span class="text-muted" ng-hide="registration.meetings">n/a</span></dd>
+      <dt>Meeting Location</dt>
+      <dd>{{registration.location}}<span class="text-muted" ng-hide="registration.location">n/a</span></dd>
+      <dt>Website</dt>
+      <dd>{{registration.website}}<span class="text-muted" ng-hide="registration.website">n/a</span></dd>
+    </dl>
+  </div>
+</div>
+</div>

@@ -69,25 +69,26 @@ class Student {
     
     public function loadAddresses($types = null)
     {
-    	if(!is_null($this->_addresses))
-    	    return;
+        if(!is_null($this->_addresses))
+            return;
     	    
-    	$db = new PHPWS_DB('sdr_address');
-    	$db->addWhere('student_id', $this->id);
+        $db = new PHPWS_DB('sdr_address');
+        $db->addWhere('student_id', $this->id);
+        $db->addOrder('sequence');
 
-	if(!is_null($types))
-	  $db->addWhere('type',$types);
+        if(!is_null($types))
+            $db->addWhere('type',$types);
 
-    	PHPWS_Core::initModClass('sdr', 'Address.php');
-    	$result = $db->getObjects('Address');
+        PHPWS_Core::initModClass('sdr', 'Address.php');
+        $result = $db->getObjects('Address');
 
-	if(!is_null($result)){
-	  foreach($result as $r) {
-	    $r->loadStudent($this);
-	  }
-	}
+        if(!is_null($result)){
+            foreach($result as $r) {
+                $r->loadStudent($this);
+            }
+        }
     	
-    	$this->_addresses = $result;
+        $this->_addresses = $result;
     }
     
     public function loadEnrollments()

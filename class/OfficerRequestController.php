@@ -5,6 +5,8 @@
  * @author Jeff Tickle <jtickle at tux dot appstate dot edu>
  */
 
+PHPWS_Core::initModClass('sdr', 'Soap.php');
+
 class OfficerRequestController extends PDOController
 {
     public function get($id = null, $username = null)
@@ -42,6 +44,8 @@ class OfficerRequestController extends PDOController
 
         if(!$this->safeExecute($stmt, $params)) return FALSE;
 
+        $soap = new Soap();
+
         $requests = array();
         $oldid = -1;
         $req = array();
@@ -59,12 +63,41 @@ class OfficerRequestController extends PDOController
                     'officers'           => array());
             }
 
+            $extra = array(
+                'have_record' => false,
+                'first_name' => '',
+                'last_name' => '',
+                'email' => '',
+                'phone' => ''
+                );
+
+            $member = new Member($r['member_id'], $r['person_email']);
+            if(!is_null($member->getId())) {
+                $extra['first_name']  = $member->getFirstName();
+                $extra['last_name']   = $member->getLastName();
+                $extra['email']       = $member->getUsername() . '@appstate.edu';
+                $extra['have_record'] = true;
+                if($member->isAdvisor()) {
+                    $extra['phone'] = $member->getAdvisor()->getOfficePhone();
+                } else if($member->isStudent()) {
+                    $addresses = $member->getStudent()->getAddresses('PS');
+                    if(!empty($addresses)) {
+                        $extra['phone'] = $addresses[0]->getPhone();
+                    }
+                }
+            }
+
             $req['officers'][] = array(
                 'member_id'    => $r['member_id'],
                 'person_email' => $r['person_email'],
                 'role_id'      => $r['role_id'],
                 'admin'        => $r['admin'],
-                'fulfilled'    => $r['fulfilled']);
+                'fulfilled'    => $r['fulfilled'],
+                'have_record'  => $extra['have_record'],
+                'first_name'   => $extra['first_name'],
+                'last_name'    => $extra['last_name'],
+                'email'        => $extra['email'],
+                'phone'        => $extra['phone']);
         }
 
         if($req) $requests[] = $req;    // Fencepost
