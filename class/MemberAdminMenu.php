@@ -17,6 +17,7 @@ class MemberAdminMenu extends CommandMenu
     public function __construct($member)
     {
         $this->member = $member;
+        parent::__construct();
     }
 
     protected function setupCommands()
