@@ -12,8 +12,16 @@ PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
 
 class MemberAdminMenu extends CommandMenu
 {
+    protected $member;
+
+    public function __construct($member)
+    {
+        $this->member = $member;
+    }
+
     protected function setupCommands()
 	{
+        $member = $this->member;
         if(UserStatus::isAdmin()) {
             $user = $member->getUsername();
             $cmd = CommandFactory::getCommand('WearMask');
