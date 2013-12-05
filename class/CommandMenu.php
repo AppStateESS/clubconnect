@@ -36,6 +36,17 @@ abstract class CommandMenu extends sdr\View
     {
         $this->context = $context;
     }
+
+    public function countViewableCommands()
+    {
+        $count = 0;
+        foreach($this->commands as $text => $command) {
+            if(!$command->allowView()) continue;
+            $count++;
+        }
+
+        return $count;
+    }
 	
     public function plugCommands(array &$tpl)
     {
