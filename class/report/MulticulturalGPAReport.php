@@ -27,6 +27,13 @@ class MulticulturalGPAReport
     function __construct($term) {
         PHPWS_Core::initCoreClass('Database.php');
 
+        PHPWS_Core::initModClass('sdr', 'GPAController.php');
+        $gpa = new GPAController();
+        if(!$gpa->haveDataFor($term)) {
+            PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
+            throw new PermissionException('GPA Data for ' . Term::getPrintableSelectedTerm() . ' has not yet been loaded into ClubConnect.  Please contact ESS if you believe this to be in error.');
+        }
+
         $this->term = $term;
 
         $this->msd_data         = new MulticulturalGPAReportDatum();

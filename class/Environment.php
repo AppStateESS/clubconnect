@@ -84,7 +84,8 @@ class Environment
 
         try {
             $message = $this->formatException($e, $unique);
-            \NQ::Simple('sdr', SDR_NOTIFICATION_ERROR, SDRSettings::getExceptionMessage());
+            $display = $this->displayException($e, $unique);
+            \NQ::Simple('sdr', SDR_NOTIFICATION_ERROR, $display);
             $this->logError($message, $subject);
             $this->emailError($message, $subject);
         } catch(Exception $e) {
@@ -99,6 +100,17 @@ class Environment
         }
 
         return $unique;
+    }
+
+    public function displayException(Exception $e, $unique)
+    {
+        $msg = SDRSettings::getExceptionMessage();
+
+        if(is_null($msg) || empty($msg)) {
+            return 'Error ID ' . $unique;
+        }
+
+        return preg_replace('/\[EXCEPTION_ID\]/', $unique, SDRSettings::getExceptionMessage());
     }
 
     public function formatException(Exception $e, $unique)
