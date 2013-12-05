@@ -1,6 +1,6 @@
 <?php
 $proper_name  = 'Student Development Record';
-$version      = '0.11.3';
+$version      = '0.11.5';
 $register     = FALSE;
 $unregister   = FALSE;
 $import_sql   = TRUE;

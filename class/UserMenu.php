@@ -11,10 +11,8 @@ PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
 
 class UserMenu extends CommandMenu
 {
-	public function __construct()
+    protected function setupCommands()
 	{
-		parent::__construct();
-		
 		$this->addCommandByName('Home', 'ShowUserSummary');
         $this->addCommandByName('Club Directory', 'ClubDirectory');
         //$this->addCommandByName('Register Organization', 'ShowOrganizationApplication');

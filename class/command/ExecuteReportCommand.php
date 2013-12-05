@@ -39,6 +39,11 @@ class ExecuteReportCommand extends Command {
         }
         $format = $this->format;
 
+        if(!UserStatus::hasPermission(strtolower("report_{$this->report}"))) {
+            PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
+            throw new PermissionException("You do not have permission to access {$this->report}.");
+        }
+
         PHPWS_Core::initModClass('sdr','report/'.$report.'.php');
         $rep = new $report(Term::getSelectedTerm());
 

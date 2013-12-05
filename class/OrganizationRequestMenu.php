@@ -5,10 +5,8 @@ PHPWS_Core::initModClass('sdr', 'Membership.php');
 
 class OrganizationRequestMenu extends CommandMenu
 {
-	public function __construct(Organization $org)
+    protected function setupCommands()
 	{
-		parent::__construct();
-
 		PHPWS_Core::initModClass('sdr', 'GlobalLock.php');
 		if(!GlobalLock::isLocked() || UserStatus::isAdmin()){
 		

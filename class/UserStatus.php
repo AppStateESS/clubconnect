@@ -30,7 +30,7 @@ class UserStatus
     public static function canAdmin()
     {
         return Current_User::isLogged() && (
-                   Current_User::allow('sdr') ||
+                   Current_User::allow('sdr', 'special_sdr_access') ||
                    ConfigurationManager::getInstance()
                        ->getUberAdmin()
                        ->hasRights(

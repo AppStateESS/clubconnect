@@ -18,7 +18,6 @@ abstract class View
 abstract class SDRView extends View
 {
     private $main;
-    private $menu;
 
     public function setMain($content)
     {
@@ -30,23 +29,12 @@ abstract class SDRView extends View
         return $this->main;
     }
 
-    public function setMenu($menu)
-    {
-        $this->menu = $menu;
-    }
-
-    public function getMenu()
-    {
-        return $this->menu;
-    }
-
     public function showSDR($content)
     {
         $tpl = array();
-        $tpl['MENU'] = $this->getMenu();
         $tpl['MAIN'] = $content;
         $tpl['USER'] = \UserStatus::getDisplay();
-    
+
         \PHPWS_Core::initModClass('sdr', 'GlobalLock.php');
         \PHPWS_Core::initModClass('sdr', 'UserStatus.php');
         if(\GlobalLock::isLocked() && \UserStatus::isUser()){

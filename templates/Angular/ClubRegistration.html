@@ -1,6 +1,6 @@
 <div data-ng-controller="ClubRegistrationCtrl">
 <form id="clubregistration" name="clubregistration">
-  <a class="btn btn-default pull-right" target="_blank" href="sdr/registration/{{registration.registration_id}}/print"><i class="icon-print"></i> Print</a>
+  <a class="btn btn-default pull-right" target="_blank" data-ng-show="user.permission.registration_admin" href="sdr/registration/{{registration.registration_id}}/print"><i class="icon-print"></i> Print</a>
   <h1>Club Registgration <small>2013-2014</small></h1>
   <hr>
   <div data-ng-show="registration.state == 'Rejected'" class="alert alert-danger">

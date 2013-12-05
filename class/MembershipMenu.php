@@ -14,41 +14,40 @@ PHPWS_Core::initModClass('sdr', 'Membership.php');
 
 class MembershipMenu extends CommandMenu
 {
-  public function __construct(Membership $membership)
-  {
-    parent::__construct();
-        
-    if(UserStatus::orgAdmin($membership->getOrganizationId())) {
-      $manage = CommandFactory::getCommand('ShowOrganizationRoster');
-      $manage->setOrganizationId($membership->getOrganizationId());
-      $this->addCommand('Manage Organization', $manage);
+    protected function setupCommands()
+    {
+        if(UserStatus::orgAdmin($membership->getOrganizationId())) {
+            $manage = CommandFactory::getCommand('ShowOrganizationRoster');
+            $manage->setOrganizationId($membership->getOrganizationId());
+            $this->addCommand('Manage Organization', $manage);
+        }
+
+        if($membership->getLevel() == MBR_LEVEL_AWAITING_ORG) {
+            $cancel = CommandFactory::getCommand('RemoveMembershipConfirmation');
+            $cancel->setMembershipId($membership->getId());
+            $this->addCommand('Cancel Membership Request', $cancel);
+        } else 
+        if($membership->getLevel() == MBR_LEVEL_AWAITING_STUDENT) {
+            $accept = CommandFactory::getCommand('AcceptMembership');
+            $accept->setMembershipId($membership->getId());
+            $this->addCommand('Accept Membership Request', $accept);
+            $decline = CommandFactory::getCommand('RemoveMembershipConfirmation');
+            $decline->setMembershipId($membership->getId());
+            $this->addCommand('Decline Membership Request', $decline);
+        } else {
+            $remove = CommandFactory::getCommand('RemoveMembershipConfirmation');
+            $remove->setMembershipId($membership->getId());
+            $this->addCommand('Remove Membership', $remove);
+        } 
+
+        // TODO: Make this happen someday
+        /*if(UserStatus::orgAdmin($membership->getOrganizationId(), null, 'ALL')) {
+            $register = CommandFactory::getCommand('ShowOrganizationApplication');
+            $register->setOrganizationId($membership->getOrganizationId());
+            $this->addCommand('Register for ' . Term::getPrintableCurrentTerm(), 
+            $register);
+        }*/
     }
-		
-
-    if($membership->getLevel() == MBR_LEVEL_AWAITING_ORG) {
-      $cancel = CommandFactory::getCommand('RemoveMembershipConfirmation');
-      $cancel->setMembershipId($membership->getId());
-      $this->addCommand('Cancel Membership Request', $cancel);		  
-    } else if($membership->getLevel() == MBR_LEVEL_AWAITING_STUDENT) {
-      $accept = CommandFactory::getCommand('AcceptMembership');
-      $accept->setMembershipId($membership->getId());
-      $this->addCommand('Accept Membership Request', $accept);
-      $decline = CommandFactory::getCommand('RemoveMembershipConfirmation');
-      $decline->setMembershipId($membership->getId());
-      $this->addCommand('Decline Membership Request', $decline);
-    } else {
-      $remove = CommandFactory::getCommand('RemoveMembershipConfirmation');
-      $remove->setMembershipId($membership->getId());
-      $this->addCommand('Remove Membership', $remove);
-    } 
-
-    // TODO: Make this happen someday
-    /*if(UserStatus::orgAdmin($membership->getOrganizationId(), null, 'ALL')) {
-        $register = CommandFactory::getCommand('ShowOrganizationApplication');
-        $register->setOrganizationId($membership->getOrganizationId());
-        $this->addCommand('Register for ' . Term::getPrintableCurrentTerm(), $register);
-    }*/
-  }
 }
 
 ?>

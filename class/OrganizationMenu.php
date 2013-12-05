@@ -13,10 +13,8 @@ PHPWS_Core::initModClass('sdr', 'Organization.php');
 
 class OrganizationMenu extends CommandMenu
 {
-    public function __construct(Organization $org)
+    protected function setupCommands()
     {
-        parent::__construct();
-
         $commands = array();
 		
         if(UserStatus::orgAdmin($org->getId())) {

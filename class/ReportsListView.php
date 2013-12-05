@@ -20,8 +20,10 @@ class ReportsListView extends sdr\View
         foreach($files as $file) {
             $report = preg_replace('/\.php$/', '', $file);
             if($report == $file) continue;
+
+            if(!UserStatus::hasPermission(strtolower("report_{$report}"))) continue;
+
             PHPWS_Core::initModClass('sdr', self::$dir . '/' . $file);
-            
             $registration = "{$report}Registration";
             $this->reports[] = new $registration();
         }

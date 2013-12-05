@@ -9,10 +9,8 @@ PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
 
 class NoApplicationsMenu extends CommandMenu
 {
-    public function __construct()
+    protected function setupCommands()
     {
-        parent::__construct();
-
         $this->addCommandByName('Register an Organization', 'ClubRegistrationFormCommand');
     }
 }

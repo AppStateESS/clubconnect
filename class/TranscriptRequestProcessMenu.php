@@ -10,10 +10,8 @@ PHPWS_Core::initModClass('sdr', 'TranscriptRequest.php');
 
 class TranscriptRequestProcessMenu extends CommandMenu
 {
-    public function __construct(TranscriptRequest $req)
+    protected function setupCommands()
     {
-        parent::__construct();
-
         $generate = CommandFactory::getCommand('GenerateOfficialTranscript');
         $generate->setMemberId($req->getMemberId());
         $this->addCommand('Generate Official PDF', $generate);

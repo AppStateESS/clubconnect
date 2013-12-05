@@ -80,7 +80,7 @@ FROM sdr_membership
     LEFT JOIN sdr_organization_full
         ON sdr_membership.organization_id = sdr_organization_full.id
        AND sdr_membership.term = sdr_organization_full.term
-    LEFT JOIN sdr_membership_role
+    LEFT OUTER JOIN sdr_membership_role
         ON sdr_membership.id = sdr_membership_role.membership_id
     LEFT JOIN sdr_member
         ON sdr_membership.member_id = sdr_member.id

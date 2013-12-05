@@ -7,41 +7,16 @@
  * @author Jeff Tickle <jtickle at tux dot appstate dot edu>
  */
 
-PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
+PHPWS_Core::initModClass('sdr', 'PersistentAdminMenu.php');
 
-class AdminMenu extends CommandMenu
+class AdminMenu extends PersistentAdminMenu
 {
-	public function __construct()
+	public function setupCommands()
 	{
-		parent::__construct();
-		
-		PHPWS_Core::initModClass('sdr', 'TranscriptRequest.php');
-		$requests = TranscriptRequest::countPending();
-		
-		$request = '';
-		if($requests > 0) {
-			$request = " ($requests)";
-		}
-
-        PHPWS_Core::initModClass('sdr', 'OrganizationRegistrationController.php');
-        $ctrl = new OrganizationRegistrationController();
-        $apps = $ctrl->countPending();
-
-        $app = '';
-        if($apps > 0) {
-            $app = " ($apps)";
-        }
-
 		$this->addCommandByName('Summary', 'ShowAdminSummary');
 		$this->addCommandByName('Club Directory', 'ClubDirectoryCommand');
 		$this->addCommandByName('Students and Advisors', 'PeopleCommand');
-		$this->addCommandByName('Edit Roles', 'EditRoles');
-		$this->addCommandByName("Transcript Requests$request", 'ShowTranscriptRequests');
-        $this->addCommandByName("Club Registrations$app", 'ShowOrganizationApplications');
-		$this->addCommandByName('Run Reports', 'ListReports');
-		$this->addCommandByName('Rollover', 'ShowRollover');
-		$this->addCommandByName('Settings', 'AdminSettingsCommand');
-		$this->addCommandByName('Global Lock', 'GlobalLockCommand');
+        parent::setupCommands();
 	}
 	
 	public function show()

@@ -78,8 +78,6 @@ FROM sdr_membership
     LEFT JOIN sdr_organization_full
         ON sdr_membership.organization_id = sdr_organization_full.id
        AND sdr_membership.term = sdr_organization_full.term
-    LEFT JOIN sdr_membership_role
-        ON sdr_membership.id = sdr_membership_role.membership_id
     LEFT JOIN sdr_member
         ON sdr_membership.member_id = sdr_member.id
     LEFT JOIN sdr_student
@@ -88,6 +86,8 @@ FROM sdr_membership
         ON sdr_student.id = sdr_student_registration.student_id
     LEFT JOIN sdr_gpa
         ON sdr_member.id = sdr_gpa.member_id
+    LEFT OUTER JOIN sdr_membership_role
+        ON sdr_membership.id = sdr_membership_role.membership_id
 WHERE 
         sdr_membership.term                  = '$term'
     AND sdr_gpa.term                         = '$term'
@@ -96,7 +96,7 @@ WHERE
     AND sdr_organization_full.id        IN $ids
     AND sdr_membership.student_approved      = '1'
     AND sdr_membership.organization_approved = '1'
-    AND sdr_membership_role.role_id != 53
+    AND COALESCE(sdr_membership_role.role_id, 0) != 53
 ORDER BY sdr_organization_full.name, sdr_member.last_name, sdr_member.first_name, sdr_member.middle_name
 SQL
 );
@@ -148,6 +148,9 @@ SQL
         if(PHPWS_Error::logIfError($result)) {
             return "Template Error in renderHTML.";
         }
+
+        PHPWS_Core::initModClass('sdr', 'Term.php');
+        $tpl->setVariable('TERM', Term::getTermSelector());
 
         ksort($this->data);
 

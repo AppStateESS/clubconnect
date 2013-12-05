@@ -4,7 +4,6 @@
  **/
 
 function sdr_update(&$content,$currentVersion) {
-
     switch ($currentVersion) {
         case version_compare($currentVersion, '0.6.2', '<'):
             $db = new PHPWS_DB;
@@ -203,6 +202,10 @@ function sdr_update(&$content,$currentVersion) {
             if(PHPWS_Error::logIfError($result)) {
                 return $result;
             }
+
+        case version_compare($currentVersion, '0.11.5', '<'):
+            PHPWS_Core::initModClass('users', 'Permission.php');
+            Users_Permission::registerPermissions('sdr', $content);
     }
 
     return TRUE;

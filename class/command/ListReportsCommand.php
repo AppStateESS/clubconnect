@@ -13,9 +13,10 @@ class ListReportsCommand extends Command
     {
         // TODO: Separate permission manager for reports
         // ....or just replace with webfocus?
-        return UserStatus::hasPermission('report_annual') ||
-               UserStatus::hasPermission('report_greek_gpa') ||
-               UserStatus::hasPermission('report_transfer');
+        return UserStatus::hasPermission('report_annualreport') ||
+               UserStatus::hasPermission('report_greekgpareport') ||
+               UserStatus::hasPermission('report_transferreport') ||
+               UserStatus::hasPermission('report_multiculturalgpareport');
     }
 
     public function execute(CommandContext $context)

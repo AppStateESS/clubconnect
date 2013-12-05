@@ -61,6 +61,7 @@ class GenerateOfficialTranscriptCommand extends Command
         header('Content-length: ' . filesize($filename));
         header('Content-disposition: attachment; filename="'.$downloadFilename.'"');
         readfile($filename);
+        unlink($filename);
         exit();
     }
 }

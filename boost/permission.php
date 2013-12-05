@@ -14,7 +14,8 @@ $permissions['rollover']            = _('Perform SDR Rollovers');
 $permissions['settings']            = _('Change SDR Settings');
 $permissions['global_lock']         = _('Able to disable SDR for all users');
 
-$permissions['report_annual']       = _('Reports: Annual Report');
-$permissions['report_greek_gpa']    = _('Reports: Greek GPA Report');
-$permissions['report_transfer']     = _('Reports: Transfer Participation');
+$permissions['report_annualreport']           = _('Reports: Annual Report');
+$permissions['report_greekgpareport']         = _('Reports: Greek GPA Report');
+$permissions['report_transfer']               = _('Reports: Transfer Participation');
+$permissions['report_multiculturalgpareport'] = _('Reports: Multicultural GPA Report');
 ?>

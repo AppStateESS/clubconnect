@@ -9,10 +9,8 @@ PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
 
 class BrowseOrganizationsMenu extends CommandMenu
 {
-    public function __construct()
+    protected function setupCommands()
     {
-        parent::__construct();
-
         $browse = CommandFactory::getCommand('ClubDirectory');
         $this->addCommand('Club Directory', $browse);
 

@@ -1,5 +1,8 @@
+<!-- BEGIN REPORT_HEADER -->
+<h1>Multicultural GPA Report <small class="text-muted">for <div style="display: inline-block;">{TERM}</div></small></h1>
+<!-- END REPORT_HEADER -->
 <!-- BEGIN ROSTER -->
-<h1>{ROSTER_HEADING}</h1>
+<h2>{ROSTER_HEADING}</h2>
 <table>
     <tr><th>Name</th><th>Class</th><th>Current</th><th>Cumulative</th></tr>
     <!-- BEGIN MEMBER -->

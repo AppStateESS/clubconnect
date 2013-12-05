@@ -36,16 +36,16 @@ class UserSDR extends SDR
             $menu->setContext($this->context);
             $view->addToSidebar($menu->show());
         }
-
-        PHPWS_Core::initModClass('sdr', 'MainMenu.php');
-        $menu = new MainMenu();
-        $menu->setContext($this->context);
-        $view->setMenu($menu->show());
         
         PHPWS_Core::initModClass('sdr', 'SDRNotificationView.php');
         $nv = new SDRNotificationView();
         $nv->popNotifications();
         $view->addNotifications($nv->show());
+
+        PHPWS_Core::initModClass('sdr', 'PersistentAdminMenu.php');
+        $menu = new PersistentAdminMenu();
+        $menu->setContext($this->context);
+        $view->addToToolbar('Administration', $menu->show());
         
         $view->show();
 

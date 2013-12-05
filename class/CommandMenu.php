@@ -8,7 +8,7 @@
  * @author Jeff Tickle <jtickle at tux dot appstate dot edu>
  */
 
-class CommandMenu extends sdr\View
+abstract class CommandMenu extends sdr\View
 {
   private $context;
   private $commands;
@@ -16,7 +16,11 @@ class CommandMenu extends sdr\View
 	public function __construct()
 	{
 		$this->commands = array();
+
+        $this->setupCommands();
 	}
+
+    protected abstract function setupCommands();
 	
 	public function addCommandByName($text, $command)
 	{

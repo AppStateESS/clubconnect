@@ -11,10 +11,8 @@ PHPWS_Core::initModClass('sdr', 'Member.php');
 
 class OrganizationApplicationMenu extends CommandMenu
 {
-    public function __construct(OrganizationApplication $app)
+    protected function setupCommands()
     {
-        parent::__construct();
-
         $member = new Member(NULL, UserStatus::getUsername());
 
         if($app->admin_confirmed && (

@@ -9,10 +9,8 @@ PHPWS_Core::initModClass('sdr', 'CommandMenu.php');
 
 class BrowseMembersMenu extends CommandMenu
 {
-    public function __construct()
+    protected function setupCommands()
     {
-        parent::__construct();
-
         if(UserStatus::isAdmin()) {
             $search = CommandFactory::getCommand('PeopleCommand');
             $this->addCommand('Search', $search);
