@@ -13,9 +13,18 @@ PHPWS_Core::initModClass('sdr', 'Organization.php');
 
 class OrganizationMenu extends CommandMenu
 {
+    protected $org;
+
+    public function __construct($org)
+    {
+        $this->org = $org;
+        parent::__construct();
+    }
+
     protected function setupCommands()
     {
         $commands = array();
+        $org = $this->org;
 		
         if(UserStatus::orgAdmin($org->getId())) {
             $commands['Roster'] = 'ShowOrganizationRoster';
