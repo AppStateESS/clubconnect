@@ -14,8 +14,17 @@ PHPWS_Core::initModClass('sdr', 'Membership.php');
 
 class MembershipMenu extends CommandMenu
 {
+    protected $membership;
+
+    public function __construct($membership)
+    {
+        $this->membership = $membership;
+        parent::__construct();
+    }
+
     protected function setupCommands()
     {
+        $membership = $this->membership;
         if(UserStatus::orgAdmin($membership->getOrganizationId())) {
             $manage = CommandFactory::getCommand('ShowOrganizationRoster');
             $manage->setOrganizationId($membership->getOrganizationId());
