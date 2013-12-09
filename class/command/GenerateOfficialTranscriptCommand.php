@@ -37,7 +37,7 @@ class GenerateOfficialTranscriptCommand extends Command
 
         $random = substr(0, 4, sha1(rand().microtime()));
 
-        $downloadFilename = "sdr_transcript_$memberId.pdf";
+        $downloadFilename = "sdr_transcript_{$memberId}_{$random}.pdf";
 
         PHPWS_Core::initModClass('sdr', 'Member.php');
         PHPWS_Core::initModClass('sdr', 'Transcript.php');
