@@ -35,7 +35,7 @@ class GenerateOfficialTranscriptCommand extends Command
     	
         $memberId = $this->memberId;
 
-        $random = substr(0, 4, sha1(rand().microtime()));
+        $random = substr(sha1(rand().microtime()), 0, 4);
 
         $downloadFilename = "sdr_transcript_{$memberId}_{$random}.pdf";
 
