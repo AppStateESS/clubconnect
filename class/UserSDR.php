@@ -45,7 +45,7 @@ class UserSDR extends SDR
         PHPWS_Core::initModClass('sdr', 'PersistentAdminMenu.php');
         $menu = new PersistentAdminMenu();
         $menu->setContext($this->context);
-        if($menu->countViewableCommands() > 1) {
+        if($menu->countViewableCommands() > 0) {
             $view->addToToolbar('Administration', $menu->show());
         }
         
