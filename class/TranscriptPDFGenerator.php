@@ -83,7 +83,6 @@ class TranscriptPDFGenerator extends TranscriptView
 
         foreach($this->membershipsForTerm as $m) {
             $this->pdf->Cell(40, 5, $m, 0, 1, 'L'); //change 60 back to 0
-            $this->pdf->Ln();
         }
         $this->pdf->Ln();
 
