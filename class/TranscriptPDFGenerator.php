@@ -34,6 +34,8 @@ class TranscriptPDFGenerator extends TranscriptView
         $this->pdf->AliasNbPages();
         $this->pdf->AddPage();
 
+        $this->pdg->setY(50);
+
         $this->renderTranscript(FALSE);
 
         // TODO: Should we do something more than just this?
@@ -66,7 +68,7 @@ class TranscriptPDFGenerator extends TranscriptView
                 // Go to next column
                 $this->SetCol($this->col+1);
                 // Set y to top
-                $this->pdf->SetY(56); //magic number!
+                $this->pdf->SetY(50); //magic number!
                 // Keep on page
             }
             else {
