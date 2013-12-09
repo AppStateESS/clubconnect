@@ -78,7 +78,7 @@ class TranscriptPDFGenerator extends TranscriptView
         }
 
         $this->pdf->setFont('Arial', 'B', 14);
-        $this->pdf->MultiCell(50, 5, Term::toString($term) . "\n", 0, 'L');
+        $this->pdf->MultiCell(50, 5, Term::toString($term), 0, 1, 'L');
         $this->pdf->setFont('Arial', NULL, 10);
 
         foreach($this->membershipsForTerm as $m) {
