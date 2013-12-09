@@ -34,7 +34,7 @@ class TranscriptPDFGenerator extends TranscriptView
         $this->pdf->AliasNbPages();
         $this->pdf->AddPage();
 
-        $this->pdg->setY(50);
+        $this->pdf->setY(50);
 
         $this->renderTranscript(FALSE);
 
