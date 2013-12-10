@@ -11,7 +11,7 @@ class GPAController extends PDOController
 {
     public function haveDataFor($term)
     {
-        if(!Term::isValidTerm()) {
+        if(!Term::isValidTerm($term)) {
             return false;
         }
 
