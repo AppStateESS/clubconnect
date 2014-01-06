@@ -67,7 +67,12 @@ class MulticulturalGPAReport
             881,    // Women's Center
             962,    // Muslim Student Association
             39,     // Korean Culture Club
-            42      // Japanese Culture Club
+            42,     // Japanese Culture Club
+            271,    // Order of Black and Gold
+            253,    // Alpha Phi Alpha
+            257,    // Kappa Alpha Psi
+            265,    // Phi Beta Sigma
+            260     // Omega Psi Phi
         )) . ')';
         $result = PHPWS_DB::getAll(<<<SQL
 SELECT
