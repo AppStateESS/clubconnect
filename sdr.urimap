@@ -30,6 +30,7 @@
 /people/{member_id}/transcript      ShowUserTranscriptCommand
 /masquerade/unmask                  RemoveMaskCommand
 /masquerade/{username}              WearMaskCommand
+/registration/printall              PrintAllRegistrationsCommand
 /registration/{registration_id}/print OrganizationRegistrationPrintCommand
 /registration/{registration_id}     ClubRegistrationFormCommand
 /registration                       ShowOrganizationApplicationsCommand

@@ -1,13 +1,3 @@
-<script type="text/javascript">
-  $(document).ready(function() {
-    window.print();
-  });
-</script>
-<style>
-pre {
-  font-size: 10px;
-}
-</style>
 <pre style="width: 50%; float: left; white-space: pre-wrap;">
    <strong>Full Name:</strong> {fullname}
   <strong>Short Name:</strong> {shortname}
@@ -21,9 +11,6 @@ pre {
 <strong>SGA Category:</strong> {sgaelection}
 
 <strong>Registration Status:</strong> {state}
-<strong>Submitted:</strong> {submitted}
- <strong>Approved:</strong> {approved}
-<strong>Certified:</strong> {certified}
 
 <strong>Change History:</strong>
 <!-- BEGIN history -->{state} by {committed_by}

@@ -99,7 +99,6 @@ class OrganizationRegistrationController extends PDOController
         if(count($regs) == 0) return FALSE;
 
         return $regs;
-            
     }
 
     public function create(array $reg)

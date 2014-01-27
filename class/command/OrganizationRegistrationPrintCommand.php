@@ -42,11 +42,15 @@ class OrganizationRegistrationPrintCommand extends CrudCommand
                 $reg['officer_request_id'] . ' referenced from registration with ID ' .
                 $reg['id']);
         }
+        $or = $or[0];
 
         PHPWS_Core::initModClass('sdr', 'OrganizationRegistrationPrintView.php');
         $view = new OrganizationRegistrationPrintView($reg, $or);
 
-        Layout::nakedDisplay($view->show(), 'Club Registration - ' . $reg['fullname'], true);
+        $processed = PHPWS_Template::process(array('CONTENTS' => $view->show()),
+            'sdr', 'OrganizationRegistrationPrintOne.tpl');
+
+        Layout::nakedDisplay($processed, 'Club Registration - ' . $reg['fullname'], true);
     }
 }
 

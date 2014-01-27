@@ -39,7 +39,7 @@ class OrganizationRegistrationPrintView extends sdr\View
             $reg['requirements'] = strip_tags($reg['requirements']);
         }
 
-        foreach($or[0]['officers'] as &$officer) {
+        foreach($or['officers'] as &$officer) {
             $role = new Role($officer['role_id']);
             $officer['role'] = $role->getTitle();
             if($officer['admin']) {
@@ -53,7 +53,7 @@ class OrganizationRegistrationPrintView extends sdr\View
         }
         unset($officer);
 
-        $vars = array_merge($reg, $or[0]);
+        $vars = array_merge($reg, $or);
 
         return PHPWS_Template::process($vars, 'sdr', 'OrganizationRegistrationPrint.tpl');
     }
