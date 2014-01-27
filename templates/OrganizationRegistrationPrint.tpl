@@ -20,7 +20,8 @@
 <strong>Elections:</strong> {elections}
 
 <strong>Officers:</strong>
-<!-- BEGIN officers -->{person_email} - {role}
+<!-- BEGIN officers -->{person_email} - {role}<!-- BEGIN contact -->
+  {contact}<!-- END contact -->
 <!-- END officers -->
 </pre>
 <pre style="width: 50%; float: left; white-space: pre-wrap;">

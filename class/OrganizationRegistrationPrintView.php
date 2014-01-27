@@ -39,6 +39,7 @@ class OrganizationRegistrationPrintView extends sdr\View
             $reg['requirements'] = strip_tags($reg['requirements']);
         }
 
+        PHPWS_Core::initModClass('sdr', 'Member.php');
         foreach($or['officers'] as &$officer) {
             $role = new Role($officer['role_id']);
             $officer['role'] = $role->getTitle();
@@ -49,6 +50,22 @@ class OrganizationRegistrationPrintView extends sdr\View
                 } else {
                     $officer['role'] .= "\n  <strong>unfulfilled</strong>";
                 }
+            }
+
+            $person = new Member(null, $officer['person_email']);
+            if($person->getId() > 0) {
+                if($person->isAdvisor()) {
+                    $number = $person->getAdvisor()->getOfficePhone();
+                } else {
+                    $addresses = $person->getStudent()->getAddresses('PS');
+                    if(!empty($addresses)) {
+                        $number = $addresses[0]->getPhone();
+                    }
+                }
+
+                $officer['contact'] = $person->getFullName() . ' - ' . $number;
+            } else {
+                $officer['contact'] = 'No Contact Information Available';
             }
         }
         unset($officer);
