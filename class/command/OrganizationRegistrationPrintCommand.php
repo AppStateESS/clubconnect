@@ -43,46 +43,10 @@ class OrganizationRegistrationPrintCommand extends CrudCommand
                 $reg['id']);
         }
 
-        PHPWS_Core::initModClass('sdr', 'OrganizationRegistrationPrintSettings.php');
-        PHPWS_Core::initModClass('sdr', 'OrganizationRegistrationPDF.php');
-        $settings = new OrganizationRegistrationPrintSettings(UserStatus::getUsername());
-        $pdf = new OrganizationRegistrationPDF($reg, $or, $settings);
+        PHPWS_Core::initModClass('sdr', 'OrganizationRegistrationPrintView.php');
+        $view = new OrganizationRegistrationPrintView($reg, $or);
 
-        $filename = '/tmp/derp.pdf';
-        $pdf->Output($filename, 'F');
-
-        if(!file_exists($filename)) {
-            PHPWS_Core::initModClass('sdr', 'exception/PDFGeneratorException.php');
-            throw new PDFGeneratorException('An error occurred generating a printable Club Registration Form.');
-        }
-
-        $downloadFilename = 'club-registration-'.$reg['term'].'-'.$reg['organization_id'].'.pdf';
-
-        header('Content-type: application/pdf');
-        header('Content-Transfer-Encoding: Binary');
-        header('Content-Disposition: attachment; filename="'.$downloadFilename.'"');
-        readfile($filename);
-        unlink($filename);
-        exit();
-
-        $template = array(
-            'CONTENT' => $context->getContent(),
-            'THEME_HTTP'=> Layout::getThemeHttpRoot() . Layout::getCurrentTheme() . '/'
-        );
-
-        $file = 'themes/' . Layout::getCurrentTheme() . '/blank.tpl';
-
-        $jsHead = array();
-        if(isset($GLOBALS['Layout_JS'])) {
-            foreach($GLOBALS['Layout_JS'] as $script=>$javascript) {
-                $jsHead[] = $javascript['head'];
-            }
-        }
-
-        $template['JAVASCRIPT'] = implode("\n", $jsHead);
-
-        echo PHPWS_Template::process($template, 'layout', $file, true);
-        exit();
+        Layout::nakedDisplay($view->show(), 'Club Registration - ' . $reg['fullname'], true);
     }
 }
 
