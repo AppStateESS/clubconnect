@@ -25,11 +25,19 @@ class OrganizationRegistrationPrintView extends sdr\View
         $reg['searchtags'] = implode(', ', $reg['searchtags']);
 
         $sgaelection = array('', 'Greek Life (Fraternities and Sororities Only)', 'Honors / Academics', 'Multicultural Affairs', 'Sports', 'Service Initiative', 'Special Interest');
-        $reg['sgaelection'] = $sgaelection[$reg['sgaelection']];
+        if(array_key_exists('sgaelection', $reg) && $reg['sgaelection'] > 0) {
+            $reg['sgaelection'] = $sgaelection[$reg['sgaelection']];
+        }
 
-        $reg['purpose']      = strip_tags($reg['purpose']);
-        $reg['description']  = strip_tags($reg['description']);
-        $reg['requirements'] = strip_tags($reg['requirements']);
+        if(array_key_exists('purpose', $reg)) {
+            $reg['purpose']      = strip_tags($reg['purpose']);
+        }
+        if(array_key_exists('description', $reg)) {
+            $reg['description']  = strip_tags($reg['description']);
+        }
+        if(array_key_exists('requirements', $reg)) {
+            $reg['requirements'] = strip_tags($reg['requirements']);
+        }
 
         foreach($or[0]['officers'] as &$officer) {
             $role = new Role($officer['role_id']);
