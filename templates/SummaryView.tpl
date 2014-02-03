@@ -41,4 +41,16 @@
 <!-- END MEMBERSHIPS -->
     </div>
   </div>
+<!-- BEGIN PENDING -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">Pending Requests</h4>
+    </div>
+    <div class="list-group">
+      <i class="icon-group"></i>
+      <h4 class="list-group-item-title">{TITLE}</h4>
+      <p class="list-group-item-text">{TEXT}</p>
+    </div>
+  </div>
+<!-- END PENDING -->
 </div>

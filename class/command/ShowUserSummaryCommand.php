@@ -54,6 +54,9 @@ class ShowUserSummaryCommand extends Command
         // Load Notifications
         $vars['NOTIFICATIONS'] = array();
 
+        // Load Outstanding Requests
+        $vars['OUTSTANDING'] = array();
+
         // Outstanding Officer Requests
         PHPWS_Core::initModClass('sdr', 'OfficerRequestController.php');
         $orctrl = new OfficerRequestController();
@@ -86,15 +89,21 @@ class ShowUserSummaryCommand extends Command
         $accept = CommandFactory::getInstance()->get(
             'AcceptMembershipCommand', array('membership_id' => null));
         foreach($mrs as $mr) {
-            $accept->setMembershipId($mr->getId());
-            $vars['NOTIFICATIONS'][] = array(
-                'TITLE' => 'Membership Request',
-                'TEXT'  => '<strong>'.$mr->getOrganizationName(false).'</strong> has requested that you become a member.',
-                'URL'   => $accept->getURI()
-            );
+            if(!$mr->studentApproved()) {
+                $accept->setMembershipId($mr->getId());
+                $vars['NOTIFICATIONS'][] = array(
+                    'TITLE' => 'Membership Request',
+                    'TEXT'  => '<strong>'.$mr->getOrganizationName(false).'</strong> has requested that you become a member.',
+                    'URL'   => $accept->getURI()
+                );
+            } else {
+                $vars['OUTSTANDING'][] = array(
+                    'TITLE' => 'Membership',
+                    'TEXT'  => 'You have requested to become a member of <strong>'.$mr->getOrganizationName(false).'</strong>.  The President or Advisor will need to approve your request.'
+                );
+            }
         }
-        // TODO: Administrative Club Membership Processing
-        //
+
         if(empty($vars['NOTIFICATIONS'])) {
             unset($vars['NOTIFICATIONS']);
             $vars['NO_NOTIFICATIONS'] = 'You have no new notifications.';

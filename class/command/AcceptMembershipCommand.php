@@ -21,11 +21,23 @@ class AcceptMembershipCommand extends CrudCommand {
         $this->membership_id = $id;
     }
 
+    protected function checkMember(Membership $membership)
+    {
+        PHPWS_Core::initModClass('sdr', 'Member.php');
+        $member = new Member(null, UserStatus::getUsername());
+        if($member->getId() != $membership->getMemberId()) {
+            PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
+            throw new PermissionException('The selected membership request does not apply to you.');
+        }
+    }
+
     public function get(CommandContext $context)
     {
         $membership = new Membership($this->membership_id);
         $org = $membership->getOrganization();
         $orgMgr = new OrganizationManager($org);
+
+        $this->checkMember($membership);
 
         $orgMgr->ifLocked('You may not accept membership in this organization because ');
 
@@ -51,6 +63,8 @@ class AcceptMembershipCommand extends CrudCommand {
         if(is_null($membership_id) || !isset($membership_id)){
             throw new InvalidArgumentException('No Membership specified to AcceptMembershipCommand');
         }
+
+        $this->checkMember($membership);
         
         PHPWS_Core::initModClass('sdr', 'MembershipFactory.php');
         $membership = MembershipFactory::getMembershipById($membership_id);
