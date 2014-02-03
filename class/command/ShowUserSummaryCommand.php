@@ -98,8 +98,7 @@ class ShowUserSummaryCommand extends Command
                 );
             } else {
                 $vars['OUTSTANDING'][] = array(
-                    'TITLE' => 'Membership',
-                    'TEXT'  => 'You have requested to become a member of <strong>'.$mr->getOrganizationName(false).'</strong>.  The President or Advisor will need to approve your request.'
+                    'NAME' => $mr->getOrganizationName(false)
                 );
             }
         }

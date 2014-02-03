@@ -44,17 +44,14 @@
 <!-- BEGIN PENDING -->
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4 class="panel-title">Pending Requests</h4>
+      <h4 class="panel-title">Pending Membership Requests</h4>
     </div>
-    <div class="list-group">
+    <p>You have requested membership in the following organizations.  These memberships will not show up on your co-curricular transcript until approved by the organization.</p>
+    <ul>
 <!-- BEGIN OUTSTANDING -->
-      <div class="list-group-item">
-        <i class="icon-group"></i>
-        <h4 class="list-group-item-title">{TITLE}</h4>
-        <p class="list-group-item-text">{TEXT}</p>
-      </div>
+      <li>{NAME}</li>
 <!-- END OUTSTANDING -->
-    </div>
+    </ul>
   </div>
 <!-- END PENDING -->
 </div>
