@@ -98,7 +98,7 @@ class ShowUserSummaryCommand extends Command
                 );
             } else {
                 $vars['OUTSTANDING'][] = array(
-                    'NAME' => $mr->getOrganizationName(true)
+                    'NAME' => $mr->getOrganizationName(false)
                 );
             }
         }
