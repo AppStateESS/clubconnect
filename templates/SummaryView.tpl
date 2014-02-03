@@ -47,9 +47,13 @@
       <h4 class="panel-title">Pending Requests</h4>
     </div>
     <div class="list-group">
-      <i class="icon-group"></i>
-      <h4 class="list-group-item-title">{TITLE}</h4>
-      <p class="list-group-item-text">{TEXT}</p>
+<!-- BEGIN OUTSTANDING -->
+      <div class="list-group-item">
+        <i class="icon-group"></i>
+        <h4 class="list-group-item-title">{TITLE}</h4>
+        <p class="list-group-item-text">{TEXT}</p>
+      </div>
+<!-- END OUTSTANDING -->
     </div>
   </div>
 <!-- END PENDING -->
