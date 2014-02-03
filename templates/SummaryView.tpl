@@ -46,7 +46,7 @@
     <div class="panel-heading">
       <h4 class="panel-title">Pending Membership Requests</h4>
     </div>
-    <p class="text-muted">You have requested membership in the following organizations.  These memberships will not show up on your co-curricular transcript until approved by the organization.</p>
+    <p class="text-muted">You have requested membership in the following organizations.  Organizations must approve membership requests before you can be an official member.</p>
     <ul>
 <!-- BEGIN OUTSTANDING -->
       <li>{NAME}</li>
