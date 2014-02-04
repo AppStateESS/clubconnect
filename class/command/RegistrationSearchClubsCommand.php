@@ -16,7 +16,7 @@ class RegistrationSearchClubsCommand extends CrudCommand
 
         $restrict = '';
         if(!UserStatus::isAdmin()) {
-            $restrict = ' WHERE o.term IN (201240, 201310, 201340)';
+            $restrict = ' WHERE o.term IN (201240, 201310, 201340, 201410)';
         }
         
         $stmt = $pdo->prepare("

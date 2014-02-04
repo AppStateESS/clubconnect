@@ -44,7 +44,7 @@ class OrganizationController extends PDOController
                 (SELECT * FROM sdr_organization_registration WHERE term IN (201240,201310)) AS r
                  ON o.id   = r.organization_id
             LEFT OUTER JOIN 
-                (SELECT * FROM sdr_organization_registration WHERE term=201340) AS rc
+                (SELECT * FROM sdr_organization_registration WHERE term IN (201340,201410) AS rc
                  ON o.id   = rc.organization_id
             WHERE 
                     m.term IN (201240, 201310)
