@@ -64,10 +64,9 @@ class AcceptMembershipCommand extends CrudCommand {
             throw new InvalidArgumentException('No Membership specified to AcceptMembershipCommand');
         }
 
-        $this->checkMember($membership);
-        
         PHPWS_Core::initModClass('sdr', 'MembershipFactory.php');
         $membership = MembershipFactory::getMembershipById($membership_id);
+        $this->checkMember($membership);
         
         $cmd = CommandFactory::getCommand('ShowUserSummary');
         
