@@ -34,15 +34,11 @@ class OrganizationController extends PDOController
             SELECT
                 o.id,
                 o.name,
-                r.registration_id
             FROM
                 sdr_organization_recent AS o
             JOIN sdr_membership AS m
                  ON o.id   = m.organization_id
                 AND o.term = m.term
-            LEFT OUTER JOIN
-                (SELECT * FROM sdr_organization_registration WHERE term IN (201240,201310)) AS r
-                 ON o.id   = r.organization_id
             LEFT OUTER JOIN 
                 (SELECT * FROM sdr_organization_registration WHERE term IN (201340,201410)) AS rc
                  ON o.id   = rc.organization_id
