@@ -33,7 +33,7 @@ class OrganizationController extends PDOController
         $stmt = $this->pdo->prepare("
             SELECT
                 o.id,
-                o.name,
+                o.name
             FROM
                 sdr_organization_recent AS o
             JOIN sdr_membership AS m
