@@ -101,14 +101,13 @@ WHERE
         sdr_membership.term                  = '$term'
     AND sdr_gpa.term                         = '$term'
     AND sdr_student_registration.term        = '$term'
-    AND sdr_organization_full.type_id        IN ('11', '12')
+    AND sdr_organization_full.type_id        IN ('11', '12', '100', '101')
     AND sdr_membership.student_approved      = '1'
     AND sdr_membership.organization_approved = '1'
     $roleid
 ORDER BY sdr_organization_full.name, sdr_member.last_name, sdr_member.first_name, sdr_member.middle_name
 SQL
 );
-
         if(PHPWS_Error::logIfError($result)) {
             PHPWS_Core::initModClass('sdr', 'exception/DatabaseException.php');
             throw new DatabaseException($result->toString());
@@ -161,24 +160,24 @@ SQL
             $this->pledge_data->add($student);
 
             // Fraternity Pledges
-            if($org->type == 11) {
+            if($org->type == 11 || $org->type == 100) {
                 $this->frat_pledge_data->add($student);
             }
 
             // Sorority Pledges
-            if($org->type == 12) {
+            if($org->type == 12 || $org->type == 101) {
                 $this->sor_pledge_data->add($student);
             }
 
         } else {    // Members
 
             // Fraternity Members
-            if($org->type == 11 && $student->status != 32) {
+            if(($org->type == 11 || $org->type == 100) && $student->status != 32) {
                 $this->frat_data->add($student);
             }
 
             // Sorority Members
-            if($org->type == 12 && $student->status != 32) {
+            if(($org->type == 12 || $org->type == 101) && $student->status != 32) {
                 $this->sor_data->add($student);
             }
 
@@ -563,8 +562,8 @@ class GreekGPAReportOrganization
     {
         $this->id   = $id;
         $this->name = $name . ' ' .
-            ($type == 11 ? 'Fraternity' :
-            ($type == 12 ? 'Sorority' : 'Uncategorized'));
+            ($type == 11 || $type == 100 ? 'Fraternity' :
+            ($type == 12 || $type == 101 ? 'Sorority' : 'Uncategorized'));
         $this->type = $type;
         $this->members = array();
         $this->avg_gpa = new GreekGPAReportDatum();
