@@ -44,6 +44,14 @@ class ClubRegistrationFormCommand extends AngularViewCommand
 
         return $ret;
     }
+
+    public function get(CommandContext $context)
+    {
+        if($this->registration_id == 'new') {
+            throw new PermissionException('The Club Registration Form has been disabled for summer.');
+        }
+        return parent::get($context);
+    }
 }
 
 ?>

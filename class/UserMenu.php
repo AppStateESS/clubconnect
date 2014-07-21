@@ -15,8 +15,7 @@ class UserMenu extends CommandMenu
 	{
 		$this->addCommandByName('Home', 'ShowUserSummary');
         $this->addCommandByName('Club Directory', 'ClubDirectory');
-        //$this->addCommandByName('Register Organization', 'ShowOrganizationApplication');
-        $this->addCommandByName('Club Registration', 'ClubRegistrationFormCommand');
+        //$this->addCommandByName('Club Registration', 'ClubRegistrationFormCommand');
 		$this->addCommandByName('Manage Transcript', 'ShowUserTranscript');
 	}
 	
