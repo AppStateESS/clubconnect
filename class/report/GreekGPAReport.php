@@ -40,6 +40,7 @@ class GreekGPAReport
 
         PHPWS_Core::initModClass('sdr', 'GPAController.php');
         $gpa = new GPAController();
+	
         if(!$gpa->haveDataFor($term)) {
             PHPWS_Core::initModClass('sdr', 'exception/PermissionException.php');
             throw new PermissionException('GPA Data for ' . Term::getPrintableSelectedTerm() . ' has not yet been loaded into ClubConnect.  Please contact ESS if you believe this to be in error.');
@@ -217,6 +218,14 @@ SQL
         ksort($this->data);
 
         foreach($this->data as $org) {
+            $all_members = 0;
+            foreach($org->members as $student) {
+                $tpl->setCurrentBlock('ALL_MEMBER');
+                $tpl->setData($student->getArray());
+                $tpl->parseCurrentBlock();
+                $all_members++;
+            }
+
             $members = 0;
             foreach($org->members as $student) {
                 if($student->status == 32) continue;  // No Pledges Here
@@ -237,6 +246,9 @@ SQL
 
             $tpl->setCurrentBlock('ROSTER');
             $tpl->setData(array('ROSTER_HEADING' => $org->name,
+				'AVGALLMEMSEM'   => $org->avg_gpa->calc_sem(),
+                                'AVGALLMEMCUM'   => $org->avg_gpa->calc_cum(),
+                                'ALLMEMCOUNT'    => $all_members,
                                 'AVGMEMSEM'      => $org->avg_member_gpa->calc_sem(),
                                 'AVGMEMCUM'      => $org->avg_member_gpa->calc_cum(),
                                 'MEMCOUNT'       => $members,
@@ -320,7 +332,22 @@ SQL
         ksort($this->data);
 
         foreach($this->data as $org) {
-            $page = $pdf->CreateMembersPage($org->name, 'Continuing Members');
+          $page = $pdf->CreateMembersPage($org->name, 'All Members');
+
+            $all_members = 0;
+            foreach($org->members as $student) {
+	      $page->addStudent($student);
+	      $all_members++;
+            }
+
+            if($all_members > 0) {
+                $page->setSemesterAverage($org->avggpa->calc_sem());
+                $page->setCumulativeAverage($org->avg_gpa->calc_cum());
+                $page->setCount($all_members);
+                $page->render();
+            }
+  
+	  $page = $pdf->CreateMembersPage($org->name, 'Continuing Members');
 
             $members = 0;
             foreach($org->members as $student) {

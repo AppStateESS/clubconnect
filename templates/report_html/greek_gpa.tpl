@@ -1,6 +1,16 @@
 <!-- BEGIN ROSTER -->
 <table><tr>
 <td>
+<h1>{ROSTER_HEADING}</h1><h2>All Members</h2>
+<table>
+    <tr><th>Name</th><th>Class</th><th>Current</th><th>Cumulative</th></tr>
+    <!-- BEGIN ALL_MEMBER -->
+    <tr><td>{NAME}</td><td>{CLASS}</td><td>{SEM}</td><td>{CUM}</td></tr>
+    <!-- END ALL_MEMBER -->
+    <tr><th colspan="2">Average:</th><td>{AVGALLMEMSEM}</td><td>{AVGALLMEMCUM}</td></tr>
+</table>
+<strong>Total Number of Continuing Members: {ALLMEMCOUNT}</strong>
+<td>
 <h1>{ROSTER_HEADING}</h1><h2>Continuing Members</h2>
 <table>
     <tr><th>Name</th><th>Class</th><th>Current</th><th>Cumulative</th></tr>
