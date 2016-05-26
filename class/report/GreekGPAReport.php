@@ -341,7 +341,7 @@ SQL
             }
 
             if($all_members > 0) {
-                $page->setSemesterAverage($org->avggpa->calc_sem());
+                $page->setSemesterAverage($org->avg_gpa->calc_sem());
                 $page->setCumulativeAverage($org->avg_gpa->calc_cum());
                 $page->setCount($all_members);
                 $page->render();
